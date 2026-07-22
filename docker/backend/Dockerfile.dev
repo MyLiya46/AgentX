@@ -1,0 +1,31 @@
+# AgentX后端开发环境Dockerfile
+# 使用官方 Maven + JDK 17 基础镜像，避免容器内找不到 mvnw 的问题
+FROM maven:3.9-eclipse-temurin-17 AS dev
+
+# 设置工作目录
+WORKDIR /app
+
+# 仅复制 Maven 必要文件以利用构建缓存
+COPY AgentX/pom.xml ./
+COPY AgentX/.mvn ./.mvn
+
+# 预下载依赖（go-offline），加速后续构建
+RUN mvn -B -e -Dmaven.test.skip=true dependency:go-offline
+
+# 复制源代码
+COPY AgentX/src ./src
+
+# 创建日志和存储目录
+RUN mkdir -p logs storage
+
+# 暴露后端端口（与应用实际端口保持一致，默认8088；仅供文档/可视化）
+EXPOSE 8088
+
+# 开发环境JVM参数（启用调试和热重载）
+ENV JAVA_OPTS="-Xms256m -Xmx512m -Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=*:5005 -Dspring.devtools.restart.enabled=true"
+
+# 暴露调试端口
+EXPOSE 5005
+
+# 开发模式启动（支持热重载）
+CMD ["mvn", "spring-boot:run", "-Dspring-boot.run.jvmArguments=${JAVA_OPTS}"]
