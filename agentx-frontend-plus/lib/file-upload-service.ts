@@ -72,12 +72,13 @@ export async function uploadFileToOss(
     const uniqueFileName = `${timestamp}_${randomStr}.${fileExtension}`
     const objectKey = `${credential.keyPrefix}${uniqueFileName}`
 
-    // 构建FormData
+    // 构建FormData（重要：file 必须在最后，否则 OSS 签名验证失败）
     const formData = new FormData()
     formData.append('key', objectKey)
     formData.append('policy', credential.policy)
     formData.append('OSSAccessKeyId', credential.accessKeyId)
     formData.append('signature', credential.signature)
+    formData.append('x-oss-object-acl', 'public-read') // 设置文件为公开读
     formData.append('file', fileInfo.file)
 
     // 创建XMLHttpRequest以支持进度回调
@@ -146,10 +147,11 @@ export async function uploadMultipleFiles(
     // 获取上传凭证
     const credential = await getUploadCredential()
     
-    // 检查文件大小
-    const oversizedFiles = files.filter(file => file.fileSize > credential.maxFileSize * 1024)
+    // 检查文件大小（maxFileSize 单位为字节）
+    const maxSizeMB = Math.round(credential.maxFileSize / 1024 / 1024)
+    const oversizedFiles = files.filter(file => file.fileSize > credential.maxFileSize)
     if (oversizedFiles.length > 0) {
-      throw new Error(`以下文件超过大小限制(${credential.maxFileSize}KB): ${oversizedFiles.map(f => f.fileName).join(', ')}`)
+      throw new Error(`以下文件超过大小限制(${maxSizeMB}MB): ${oversizedFiles.map(f => f.fileName).join(', ')}`)
     }
 
     const results: UploadResult[] = []
@@ -196,9 +198,10 @@ export async function uploadSingleFile(
   try {
     const credential = await getUploadCredential()
     
-    // 检查文件大小
-    if (file.size > credential.maxFileSize * 1024) {
-      throw new Error(`文件 ${file.name} 超过大小限制(${credential.maxFileSize}KB)`)
+    // 检查文件大小（maxFileSize 单位为字节）
+    const maxSizeMB = Math.round(credential.maxFileSize / 1024 / 1024)
+    if (file.size > credential.maxFileSize) {
+      throw new Error(`文件 ${file.name} 超过大小限制(${maxSizeMB}MB)`)
     }
 
     return await uploadFileToOss(fileInfo, credential, onProgress)

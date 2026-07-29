@@ -55,7 +55,7 @@ public class SummarizeTokenOverflowStrategy implements TokenOverflowStrategy {
         }
 
         // 按时间排序
-        List<TokenMessage> sortedMessages = messages.stream().sorted(Comparator.comparing(TokenMessage::getCreatedAt))
+        List<TokenMessage> sortedMessages = messages.stream().sorted(Comparator.comparing(TokenMessage::getCreatedAt, Comparator.nullsFirst(Comparator.naturalOrder())))
                 .collect(Collectors.toList());
 
         // 获取需要保留的消息数量

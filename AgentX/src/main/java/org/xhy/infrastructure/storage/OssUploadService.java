@@ -46,7 +46,8 @@ public class OssUploadService {
             List<Object> conditions = new ArrayList<>();
             conditions.add(Map.of("bucket", ossProperties.getBucketName()));
             conditions.add(new String[]{"starts-with", "$key", keyPrefix});
-            conditions.add(new Object[]{"content-length-range", 0, 10485760}); // 0到10MB
+            conditions.add(new Object[]{"content-length-range", 0, 52428800}); // 0到50MB
+            conditions.add(new String[]{"eq", "$x-oss-object-acl", "public-read"}); // 强制文件公开读
             policy.put("conditions", conditions);
 
             // 转换为JSON并Base64编码
@@ -64,7 +65,7 @@ public class OssUploadService {
             String accessUrlPrefix = uploadUrl + "/" + keyPrefix;
 
             return new UploadCredential(uploadUrl, ossProperties.getAccessKey(), encodedPolicy, signature, keyPrefix,
-                    accessUrlPrefix, expiration, 10485760);
+                    accessUrlPrefix, expiration, 52428800);
 
         } catch (Exception e) {
             throw new BusinessException("生成上传凭证失败", e);

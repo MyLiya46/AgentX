@@ -49,7 +49,7 @@ public class SlidingWindowTokenOverflowStrategy implements TokenOverflowStrategy
 
         // 按时间排序，保留最新的消息
         List<TokenMessage> sortedMessages = new ArrayList<>(messages);
-        Collections.sort(sortedMessages, Comparator.comparing(TokenMessage::getCreatedAt).reversed());
+        Collections.sort(sortedMessages, Comparator.comparing(TokenMessage::getCreatedAt, Comparator.nullsFirst(Comparator.naturalOrder())).reversed());
 
         // 计算可用token数（考虑预留空间）
         int maxTokens = config.getMaxTokens();
