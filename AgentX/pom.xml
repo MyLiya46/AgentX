@@ -102,6 +102,14 @@
             <optional>true</optional>
         </dependency>
 
+        <!-- 开发热重载：修改代码后自动重启，仅开发时生效 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-devtools</artifactId>
+            <scope>runtime</scope>
+            <optional>true</optional>
+        </dependency>
+
         <!-- 文件存储服务 -->
         <dependency>
             <groupId>org.dromara.x-file-storage</groupId>

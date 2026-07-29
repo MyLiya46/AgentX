@@ -54,11 +54,11 @@ public class DockerService {
             // 测试连接
             dockerClient.pingCmd().exec();
             logger.info("Docker客户端初始化成功，连接地址: {}", dockerHost);
-        } catch (Exception e) {
+        } catch (Throwable e) {
             String dockerHost = containerConfig.getDockerHost();
-            String errorMsg = buildErrorDiagnosticMessage(dockerHost, e);
-            logger.error("Docker客户端初始化失败，连接地址: {}, 详细诊断: {}", dockerHost, errorMsg, e);
-            throw new BusinessException("Docker服务不可用: " + errorMsg);
+            logger.warn("Docker客户端初始化失败，容器管理功能将不可用。连接地址: {}, 原因: {}", dockerHost, e.getMessage());
+            logger.warn("如需启用容器管理功能，请正确配置 Docker 连接: agentx.container.docker-host");
+            dockerClient = null;
         }
     }
 
