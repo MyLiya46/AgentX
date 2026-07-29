@@ -32,8 +32,7 @@ public class AgentMessageHandler extends TracingMessageHandler {
             UserSettingsDomainService userSettingsDomainService, LLMDomainService llmDomainService,
             BuiltInToolRegistry builtInToolRegistry, BillingService billingService,
             AccountDomainService accountDomainService, ChatSessionManager chatSessionManager,
-            OssDownloadService ossDownloadService, TraceCollector traceCollector,
-            AgentToolManager agentToolManager) {
+            OssDownloadService ossDownloadService, TraceCollector traceCollector, AgentToolManager agentToolManager) {
         super(llmServiceFactory, messageDomainService, highAvailabilityDomainService, sessionDomainService,
                 userSettingsDomainService, llmDomainService, builtInToolRegistry, billingService, accountDomainService,
                 chatSessionManager, ossDownloadService, traceCollector);

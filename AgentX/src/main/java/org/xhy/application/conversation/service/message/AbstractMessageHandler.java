@@ -134,8 +134,8 @@ public abstract class AbstractMessageHandler {
         onUserMessageProcessed(chatContext, userMessageEntity);
 
         // 5.5 富化当前消息：下载文件内容并合并到 chatContext.userMessage
-        //      必须在 initMemory / buildHistoryMessage 之前，因为 buildHistoryMessage
-        //      不再处理文件内容下载（仅处理历史消息文本）
+        // 必须在 initMemory / buildHistoryMessage 之前，因为 buildHistoryMessage
+        // 不再处理文件内容下载（仅处理历史消息文本）
         enrichCurrentMessageWithFiles(chatContext);
 
         // 6. 初始化聊天内存
@@ -328,8 +328,9 @@ public abstract class AbstractMessageHandler {
             messageDomainService.saveMessage(Collections.singletonList(summary));
         }
         List<String> activeMessages = chatContext.getMessageHistory().stream().filter(Objects::nonNull)
-                .sorted(Comparator.comparing(MessageEntity::getCreatedAt, Comparator.nullsFirst(Comparator.naturalOrder()))).map(MessageEntity::getId)
-                .collect(Collectors.toList());
+                .sorted(Comparator.comparing(MessageEntity::getCreatedAt,
+                        Comparator.nullsFirst(Comparator.naturalOrder())))
+                .map(MessageEntity::getId).collect(Collectors.toList());
         contextEntity.setActiveMessages(activeMessages);
         // 保存用户消息
         messageDomainService.saveMessageAndUpdateContext(Collections.singletonList(userEntity), contextEntity);
@@ -544,17 +545,14 @@ public abstract class AbstractMessageHandler {
 
                 if (StringUtils.isNotEmpty(textContent)) {
                     if (historyFileUrls != null && !historyFileUrls.isEmpty()) {
-                        String fileHint = historyFileUrls.stream()
-                                .map(u -> u.substring(u.lastIndexOf('/') + 1))
+                        String fileHint = historyFileUrls.stream().map(u -> u.substring(u.lastIndexOf('/') + 1))
                                 .collect(Collectors.joining(", "));
-                        memory.add(new UserMessage(textContent
-                                + "\n（该消息包含文件附件: " + fileHint + "）"));
+                        memory.add(new UserMessage(textContent + "\n（该消息包含文件附件: " + fileHint + "）"));
                     } else {
                         memory.add(new UserMessage(textContent));
                     }
                 } else if (historyFileUrls != null && !historyFileUrls.isEmpty()) {
-                    String fileHint = historyFileUrls.stream()
-                            .map(u -> u.substring(u.lastIndexOf('/') + 1))
+                    String fileHint = historyFileUrls.stream().map(u -> u.substring(u.lastIndexOf('/') + 1))
                             .collect(Collectors.joining(", "));
                     memory.add(new UserMessage("用户上传了文件: " + fileHint));
                 }
@@ -566,12 +564,10 @@ public abstract class AbstractMessageHandler {
         }
     }
 
-    /**
-     * 富化当前用户消息：下载文件内容并合并到 chatContext.userMessage 中。
+    /** 富化当前用户消息：下载文件内容并合并到 chatContext.userMessage 中。
      *
-     * 此方法取代了原有的"临时 MessageEntity 混入 messageHistory → buildHistoryMessage
-     * → convertFileUrlsToContents → downloadTextFile"的复杂链路。
-     */
+     * 此方法取代了原有的"临时 MessageEntity 混入 messageHistory → buildHistoryMessage → convertFileUrlsToContents →
+     * downloadTextFile"的复杂链路。 */
     private void enrichCurrentMessageWithFiles(ChatContext chatContext) {
         List<String> fileUrls = chatContext.getFileUrls();
         if (fileUrls == null || fileUrls.isEmpty()) {
@@ -589,13 +585,11 @@ public abstract class AbstractMessageHandler {
         chatContext.setUserMessage(enrichedMessage);
 
         // 检查是否有下载失败的文本文件，记录日志
-        Set<String> textExtensions = Set.of("txt", "md", "csv", "log", "json", "xml", "yml", "yaml",
-                "html", "htm", "js", "ts", "java", "py", "css", "sql",
-                "sh", "bat", "ini", "cfg", "conf");
+        Set<String> textExtensions = Set.of("txt", "md", "csv", "log", "json", "xml", "yml", "yaml", "html", "htm",
+                "js", "ts", "java", "py", "css", "sql", "sh", "bat", "ini", "cfg", "conf");
         List<String> failedTextFiles = fileUrls.stream()
                 .filter(url -> textExtensions.contains(OssDownloadService.getExtension(url)))
-                .filter(url -> !downloaded.containsKey(url))
-                .collect(Collectors.toList());
+                .filter(url -> !downloaded.containsKey(url)).collect(Collectors.toList());
 
         if (!failedTextFiles.isEmpty()) {
             logger.error("部分文件下载失败，Agent 可能无法完整感知这些文件: {}", failedTextFiles);

@@ -65,8 +65,7 @@ public class RagMessageHandler extends AbstractMessageHandler {
             UserSettingsDomainService userSettingsDomainService, LLMDomainService llmDomainService,
             BuiltInToolRegistry builtInToolRegistry, BillingService billingService,
             AccountDomainService accountDomainService, ChatSessionManager chatSessionManager,
-            OssDownloadService ossDownloadService, RAGSearchAppService ragSearchAppService,
-            ObjectMapper objectMapper) {
+            OssDownloadService ossDownloadService, RAGSearchAppService ragSearchAppService, ObjectMapper objectMapper) {
         super(llmServiceFactory, messageDomainService, highAvailabilityDomainService, sessionDomainService,
                 userSettingsDomainService, llmDomainService, builtInToolRegistry, billingService, accountDomainService,
                 chatSessionManager, ossDownloadService);

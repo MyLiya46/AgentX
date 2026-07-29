@@ -18,32 +18,24 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-/**
- * OSS 文件下载服务
+/** OSS 文件下载服务
  *
- * 使用 OSS SDK + AccessKey 认证下载文件内容，替代原有的
- * HttpURLConnection 匿名访问方式。
+ * 使用 OSS SDK + AccessKey 认证下载文件内容，替代原有的 HttpURLConnection 匿名访问方式。
  *
- * 设计原则：
- * - 认证访问：不依赖 Bucket 级别公共读权限，通过 AccessKey 签名访问
- * - 批量下载：一次下载多个文件，返回 URL → 内容 映射
- * - 缓存可插拔：通过 FileContentCache 接口接入缓存层（NoOp 或 Redis）
- * - 失败隔离：单个文件下载失败不影响其他文件
- */
+ * 设计原则： - 认证访问：不依赖 Bucket 级别公共读权限，通过 AccessKey 签名访问 - 批量下载：一次下载多个文件，返回 URL → 内容 映射 - 缓存可插拔：通过 FileContentCache
+ * 接口接入缓存层（NoOp 或 Redis） - 失败隔离：单个文件下载失败不影响其他文件 */
 @Service
 public class OssDownloadService {
 
     private static final Logger logger = LoggerFactory.getLogger(OssDownloadService.class);
 
     /** 文本文件扩展名集合 */
-    private static final Set<String> TEXT_EXTENSIONS = Set.of(
-            "txt", "md", "csv", "log", "json", "xml", "yml", "yaml",
-            "html", "htm", "js", "ts", "java", "py", "css", "sql",
-            "sh", "bat", "ini", "cfg", "conf");
+    private static final Set<String> TEXT_EXTENSIONS = Set.of("txt", "md", "csv", "log", "json", "xml", "yml", "yaml",
+            "html", "htm", "js", "ts", "java", "py", "css", "sql", "sh", "bat", "ini", "cfg", "conf");
 
     /** 图片文件扩展名集合（直接传 URL，由 langchain4j ImageContent 处理） */
-    private static final Set<String> IMAGE_EXTENSIONS = Set.of(
-            "png", "jpg", "jpeg", "gif", "webp", "bmp", "svg", "ico");
+    private static final Set<String> IMAGE_EXTENSIONS = Set.of("png", "jpg", "jpeg", "gif", "webp", "bmp", "svg",
+            "ico");
 
     /** 单文件最大下载大小：2MB */
     private static final long MAX_FILE_SIZE = 2 * 1024 * 1024;
@@ -59,22 +51,19 @@ public class OssDownloadService {
         this.fileContentCache = fileContentCache;
     }
 
-    /**
-     * 批量下载文本文件内容
+    /** 批量下载文本文件内容
      *
      * 优先从缓存获取，缓存未命中时通过 OSS SDK 下载并回写缓存。
      *
      * @param fileUrls OSS 文件完整 URL 列表
-     * @return URL → 文件内容 映射（下载失败的文件不在 Map 中）
-     */
+     * @return URL → 文件内容 映射（下载失败的文件不在 Map 中） */
     public Map<String, String> downloadTextFiles(List<String> fileUrls) {
         if (fileUrls == null || fileUrls.isEmpty()) {
             return Collections.emptyMap();
         }
 
         // 筛选出文本文件
-        List<String> textUrls = fileUrls.stream()
-                .filter(url -> TEXT_EXTENSIONS.contains(getExtension(url)))
+        List<String> textUrls = fileUrls.stream().filter(url -> TEXT_EXTENSIONS.contains(getExtension(url)))
                 .collect(Collectors.toList());
 
         if (textUrls.isEmpty()) {
@@ -108,18 +97,15 @@ public class OssDownloadService {
         return result;
     }
 
-    /**
-     * 构建供 LLM 使用的用户消息内容
+    /** 构建供 LLM 使用的用户消息内容
      *
      * 将原始用户文本与文件内容合并为一条完整消息。
      *
-     * @param userText   用户输入的文本（可为空）
-     * @param fileUrls   文件 URL 列表
+     * @param userText 用户输入的文本（可为空）
+     * @param fileUrls 文件 URL 列表
      * @param downloaded 已下载的文件内容映射
-     * @return 合并后的消息字符串
-     */
-    public String buildEnrichedMessage(String userText, List<String> fileUrls,
-            Map<String, String> downloaded) {
+     * @return 合并后的消息字符串 */
+    public String buildEnrichedMessage(String userText, List<String> fileUrls, Map<String, String> downloaded) {
         StringBuilder sb = new StringBuilder();
 
         // 用户文本
@@ -147,14 +133,12 @@ public class OssDownloadService {
                     sb.append("用户上传了图片: ").append(fileName).append("\n");
                 } else if (TEXT_EXTENSIONS.contains(ext)) {
                     // 文本文件下载失败
-                    sb.append("用户上传了文件: ").append(fileName)
-                            .append("（系统无法读取该文件内容，请告知用户此问题）\n");
+                    sb.append("用户上传了文件: ").append(fileName).append("（系统无法读取该文件内容，请告知用户此问题）\n");
                     logger.error("文本文件下载失败，已通知 LLM: url={}", fileUrl);
                 } else {
                     // 其他二进制文件（PDF、docx 等）
-                    sb.append("用户上传了文件: ").append(fileName)
-                            .append("（").append(ext).append(" 格式，访问地址：")
-                            .append(fileUrl).append("）\n");
+                    sb.append("用户上传了文件: ").append(fileName).append("（").append(ext).append(" 格式，访问地址：").append(fileUrl)
+                            .append("）\n");
                 }
             }
         }
@@ -162,9 +146,7 @@ public class OssDownloadService {
         return sb.toString();
     }
 
-    /**
-     * 下载单个文件（含缓存逻辑）
-     */
+    /** 下载单个文件（含缓存逻辑） */
     private String downloadSingleFile(OSS ossClient, String fileUrl) {
         // 1. 查缓存
         String cached = fileContentCache.get(fileUrl);
@@ -224,16 +206,12 @@ public class OssDownloadService {
         }
     }
 
-    /**
-     * 从完整 URL 中提取 OSS ObjectKey
+    /** 从完整 URL 中提取 OSS ObjectKey
      *
-     * URL 格式: https://{bucket}.{endpoint}/{objectKey}
-     * ObjectKey 示例: agent/2026/07/29/1234567890_abc123.txt
-     */
+     * URL 格式: https://{bucket}.{endpoint}/{objectKey} ObjectKey 示例: agent/2026/07/29/1234567890_abc123.txt */
     String extractObjectKey(String fileUrl) {
         try {
-            String prefix = ossProperties.getBucketName() + "."
-                    + ossProperties.getEndpoint().replace("https://", "");
+            String prefix = ossProperties.getBucketName() + "." + ossProperties.getEndpoint().replace("https://", "");
             int idx = fileUrl.indexOf(prefix);
             if (idx < 0) {
                 return null;
@@ -250,9 +228,7 @@ public class OssDownloadService {
         }
     }
 
-    /**
-     * 获取文件扩展名（小写，不含点号）
-     */
+    /** 获取文件扩展名（小写，不含点号） */
     public static String getExtension(String url) {
         String path = url.toLowerCase();
         int queryIdx = path.indexOf('?');
@@ -268,9 +244,6 @@ public class OssDownloadService {
 
     private OSS createOssClient() {
         String endpoint = ossProperties.getEndpoint();
-        return new OSSClientBuilder().build(
-                endpoint,
-                ossProperties.getAccessKey(),
-                ossProperties.getSecretKey());
+        return new OSSClientBuilder().build(endpoint, ossProperties.getAccessKey(), ossProperties.getSecretKey());
     }
 }
