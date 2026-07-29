@@ -8,8 +8,7 @@ import java.util.List;
 /** 聊天请求DTO */
 public class ChatRequest {
 
-    /** 消息内容 */
-    @NotBlank(message = "消息内容不可为空")
+    /** 消息内容（与 fileUrls 至少一个非空，业务校验在 ConversationAppService.chat() 中完成） */
     private String message;
 
     /** 会话ID */

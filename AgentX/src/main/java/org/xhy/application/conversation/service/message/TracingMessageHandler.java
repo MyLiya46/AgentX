@@ -23,6 +23,7 @@ import org.xhy.domain.trace.model.TraceContext;
 import org.xhy.domain.user.service.AccountDomainService;
 import org.xhy.domain.user.service.UserSettingsDomainService;
 import org.xhy.infrastructure.llm.LLMServiceFactory;
+import org.xhy.infrastructure.storage.OssDownloadService;
 import dev.langchain4j.memory.chat.MessageWindowChatMemory;
 import dev.langchain4j.model.chat.StreamingChatModel;
 import dev.langchain4j.model.chat.response.ChatResponse;
@@ -59,10 +60,10 @@ public abstract class TracingMessageHandler extends AbstractMessageHandler {
             UserSettingsDomainService userSettingsDomainService, LLMDomainService llmDomainService,
             BuiltInToolRegistry builtInToolRegistry, BillingService billingService,
             AccountDomainService accountDomainService, ChatSessionManager chatSessionManager,
-            TraceCollector traceCollector) {
+            OssDownloadService ossDownloadService, TraceCollector traceCollector) {
         super(llmServiceFactory, messageDomainService, highAvailabilityDomainService, sessionDomainService,
                 userSettingsDomainService, llmDomainService, builtInToolRegistry, billingService, accountDomainService,
-                chatSessionManager);
+                chatSessionManager, ossDownloadService);
         this.traceCollector = traceCollector;
     }
 

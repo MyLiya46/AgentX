@@ -1,6 +1,7 @@
 package org.xhy.application.conversation.service;
 
 import cn.hutool.core.bean.BeanUtil;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
@@ -138,6 +139,12 @@ public class ConversationAppService {
      * @param userId 用户ID
      * @return SSE发射器 */
     public SseEmitter chat(ChatRequest chatRequest, String userId) {
+        // 业务校验：message 和 fileUrls 至少一个非空
+        if (StringUtils.isBlank(chatRequest.getMessage())
+                && (chatRequest.getFileUrls() == null || chatRequest.getFileUrls().isEmpty())) {
+            throw new BusinessException("消息内容不可为空");
+        }
+
         // 1. 根据请求类型准备对话环境
         ChatContext environment = prepareEnvironmentByRequestType(chatRequest, userId);
 
@@ -343,10 +350,9 @@ public class ConversationAppService {
         // 特殊处理当前对话的文件，因为在后续的对话中无法发送文件
         List<String> fileUrls = chatRequest.getFileUrls();
         if (!fileUrls.isEmpty()) {
-            MessageEntity messageEntity = new MessageEntity();
-            messageEntity.setRole(Role.USER);
-            messageEntity.setFileUrls(fileUrls);
-            messageEntities.add(messageEntity);
+            // 注意：文件内容不再通过临时 MessageEntity 传递到 LLM 上下文。
+            // 该职责已转移至 AbstractMessageHandler.enrichCurrentMessageWithFiles()，
+            // 使用 OssDownloadService（OSS SDK + AccessKey 认证）下载并富化当前消息。
         }
 
         environment.setContextEntity(contextEntity);
@@ -391,7 +397,7 @@ public class ConversationAppService {
             retainedMessages = result.getRetainedMessages();
             // 统一对 活跃消息进行时间升序排序
             List<String> retainedMessageIds = retainedMessages.stream()
-                    .sorted(Comparator.comparing(TokenMessage::getCreatedAt)).map(TokenMessage::getId)
+                    .sorted(Comparator.comparing(TokenMessage::getCreatedAt, Comparator.nullsFirst(Comparator.naturalOrder()))).map(TokenMessage::getId)
                     .collect(Collectors.toList());
             if (strategyType == TokenOverflowStrategyEnum.SUMMARIZE
                     && retainedMessages.get(0).getRole().equals(Role.SUMMARY.name())) {
@@ -563,14 +569,9 @@ public class ConversationAppService {
             }
         }
         // 特殊处理当前对话的文件，因为在后续的对话中无法发送文件
-        List<String> fileUrls = previewRequest.getFileUrls();
-        if (!fileUrls.isEmpty()) {
-            MessageEntity messageEntity = new MessageEntity();
-            messageEntity.setRole(Role.USER);
-            messageEntity.setSessionId("preview-session");
-            messageEntity.setFileUrls(fileUrls);
-            messageEntities.add(messageEntity);
-        }
+        // 注意：文件内容不再通过临时 MessageEntity 传递到 LLM 上下文。
+        // 该职责已转移至 AbstractMessageHandler.enrichCurrentMessageWithFiles()，
+        // 使用 OssDownloadService（OSS SDK + AccessKey 认证）下载并富化当前消息。
 
         environment.setContextEntity(contextEntity);
         environment.setMessageHistory(messageEntities);
@@ -713,13 +714,9 @@ public class ConversationAppService {
         }
 
         // 处理当前对话的文件
-        List<String> fileUrls = widgetChatRequest.getFileUrls();
-        if (!fileUrls.isEmpty()) {
-            MessageEntity messageEntity = new MessageEntity();
-            messageEntity.setRole(Role.USER);
-            messageEntity.setFileUrls(fileUrls);
-            messageEntities.add(messageEntity);
-        }
+        // 注意：文件内容不再通过临时 MessageEntity 传递到 LLM 上下文。
+        // 该职责已转移至 AbstractMessageHandler.enrichCurrentMessageWithFiles()，
+        // 使用 OssDownloadService（OSS SDK + AccessKey 认证）下载并富化当前消息。
 
         environment.setContextEntity(contextEntity);
         environment.setMessageHistory(messageEntities);

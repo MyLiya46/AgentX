@@ -18,6 +18,7 @@ import org.xhy.domain.llm.service.HighAvailabilityDomainService;
 import org.xhy.domain.llm.service.LLMDomainService;
 import org.xhy.domain.user.service.UserSettingsDomainService;
 import org.xhy.infrastructure.llm.LLMServiceFactory;
+import org.xhy.infrastructure.storage.OssDownloadService;
 import org.xhy.infrastructure.transport.MessageTransport;
 import org.xhy.application.billing.service.BillingService;
 import org.xhy.domain.user.service.AccountDomainService;
@@ -36,10 +37,10 @@ public class PreviewMessageHandler extends AbstractMessageHandler {
             UserSettingsDomainService userSettingsDomainService, LLMDomainService llmDomainService,
             BuiltInToolRegistry builtInToolRegistry, BillingService billingService,
             AccountDomainService accountDomainService, ChatSessionManager chatSessionManager,
-            AgentToolManager agentToolManager) {
+            OssDownloadService ossDownloadService, AgentToolManager agentToolManager) {
         super(llmServiceFactory, messageDomainService, highAvailabilityDomainService, sessionDomainService,
                 userSettingsDomainService, llmDomainService, builtInToolRegistry, billingService, accountDomainService,
-                chatSessionManager);
+                chatSessionManager, ossDownloadService);
         this.agentToolManager = agentToolManager;
     }
 

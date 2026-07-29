@@ -26,6 +26,7 @@ import org.xhy.domain.llm.service.LLMDomainService;
 import org.xhy.domain.user.service.UserSettingsDomainService;
 import org.xhy.domain.user.service.AccountDomainService;
 import org.xhy.infrastructure.llm.LLMServiceFactory;
+import org.xhy.infrastructure.storage.OssDownloadService;
 import org.xhy.infrastructure.transport.MessageTransport;
 import org.xhy.application.billing.service.BillingService;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -64,10 +65,11 @@ public class RagMessageHandler extends AbstractMessageHandler {
             UserSettingsDomainService userSettingsDomainService, LLMDomainService llmDomainService,
             BuiltInToolRegistry builtInToolRegistry, BillingService billingService,
             AccountDomainService accountDomainService, ChatSessionManager chatSessionManager,
-            RAGSearchAppService ragSearchAppService, ObjectMapper objectMapper) {
+            OssDownloadService ossDownloadService, RAGSearchAppService ragSearchAppService,
+            ObjectMapper objectMapper) {
         super(llmServiceFactory, messageDomainService, highAvailabilityDomainService, sessionDomainService,
                 userSettingsDomainService, llmDomainService, builtInToolRegistry, billingService, accountDomainService,
-                chatSessionManager);
+                chatSessionManager, ossDownloadService);
         this.ragSearchAppService = ragSearchAppService;
         this.objectMapper = objectMapper;
     }

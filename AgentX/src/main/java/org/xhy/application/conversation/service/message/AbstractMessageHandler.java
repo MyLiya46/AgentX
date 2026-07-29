@@ -41,6 +41,7 @@ import org.xhy.domain.memory.model.MemoryResult;
 import org.xhy.domain.user.service.AccountDomainService;
 import org.xhy.infrastructure.exception.BusinessException;
 import org.xhy.infrastructure.llm.LLMServiceFactory;
+import org.xhy.infrastructure.storage.OssDownloadService;
 import org.xhy.infrastructure.transport.MessageTransport;
 import org.xhy.infrastructure.transport.SseEmitterUtils;
 import org.xhy.application.billing.service.BillingService;
@@ -81,6 +82,7 @@ public abstract class AbstractMessageHandler {
     protected final BillingService billingService;
     protected final AccountDomainService accountDomainService;
     protected final ChatSessionManager chatSessionManager;
+    protected final OssDownloadService ossDownloadService;
     @Autowired
     protected MemoryDomainService memoryDomainService;
     @Autowired
@@ -93,7 +95,8 @@ public abstract class AbstractMessageHandler {
             HighAvailabilityDomainService highAvailabilityDomainService, SessionDomainService sessionDomainService,
             UserSettingsDomainService userSettingsDomainService, LLMDomainService llmDomainService,
             BuiltInToolRegistry builtInToolRegistry, BillingService billingService,
-            AccountDomainService accountDomainService, ChatSessionManager chatSessionManager) {
+            AccountDomainService accountDomainService, ChatSessionManager chatSessionManager,
+            OssDownloadService ossDownloadService) {
         this.llmServiceFactory = llmServiceFactory;
         this.messageDomainService = messageDomainService;
         this.highAvailabilityDomainService = highAvailabilityDomainService;
@@ -104,6 +107,7 @@ public abstract class AbstractMessageHandler {
         this.billingService = billingService;
         this.accountDomainService = accountDomainService;
         this.chatSessionManager = chatSessionManager;
+        this.ossDownloadService = ossDownloadService;
     }
 
     /** 处理对话的模板方法
@@ -122,12 +126,17 @@ public abstract class AbstractMessageHandler {
         // 3. 检查用户余额是否足够
         checkBalanceBeforeChat(chatContext.getUserId(), transport, connection);
 
-        // 4. 创建消息实体
+        // 4. 创建消息实体（此时保存原始用户文本到 DB）
         MessageEntity llmMessageEntity = createLlmMessage(chatContext);
         MessageEntity userMessageEntity = createUserMessage(chatContext);
 
         // 5. 调用用户消息处理完成钩子
         onUserMessageProcessed(chatContext, userMessageEntity);
+
+        // 5.5 富化当前消息：下载文件内容并合并到 chatContext.userMessage
+        //      必须在 initMemory / buildHistoryMessage 之前，因为 buildHistoryMessage
+        //      不再处理文件内容下载（仅处理历史消息文本）
+        enrichCurrentMessageWithFiles(chatContext);
 
         // 6. 初始化聊天内存
         MessageWindowChatMemory memory = initMemory();
@@ -319,7 +328,7 @@ public abstract class AbstractMessageHandler {
             messageDomainService.saveMessage(Collections.singletonList(summary));
         }
         List<String> activeMessages = chatContext.getMessageHistory().stream().filter(Objects::nonNull)
-                .sorted(Comparator.comparing(MessageEntity::getCreatedAt)).map(MessageEntity::getId)
+                .sorted(Comparator.comparing(MessageEntity::getCreatedAt, Comparator.nullsFirst(Comparator.naturalOrder()))).map(MessageEntity::getId)
                 .collect(Collectors.toList());
         contextEntity.setActiveMessages(activeMessages);
         // 保存用户消息
@@ -508,24 +517,20 @@ public abstract class AbstractMessageHandler {
         return messageEntity;
     }
 
-    /** 构建历史消息到内存中 */
+    /** 构建历史消息到内存中（仅处理文本，不再下载文件内容） */
     protected void buildHistoryMessage(ChatContext chatContext, MessageWindowChatMemory memory) {
-        // String summary = chatContext.getContextEntity().getSummary();
         String summary = Optional.ofNullable(this.getSummaryFromHistory(chatContext.getMessageHistory()))
                 .map(MessageEntity::getContent).orElse("");
         if (StringUtils.isNotEmpty(summary)) {
-            // 添加为AI消息，但明确标识这是摘要
             memory.add(new AiMessage(summary));
         }
 
         String presetToolPrompt = "";
-        // 设置预先工具设置的参数到系统提示词中
         Map<String, Map<String, Map<String, String>>> toolPresetParams = chatContext.getAgent().getToolPresetParams();
         if (toolPresetParams != null) {
             presetToolPrompt = AgentPromptTemplates.generatePresetToolPrompt(toolPresetParams);
         }
 
-        // 读取长期记忆，组装为要点，直接合入系统提示词尾部
         String memorySection = buildMemorySection(chatContext);
         String fullSystemPrompt = chatContext.getAgent().getSystemPrompt() + "\n" + presetToolPrompt
                 + (memorySection.isEmpty() ? "" : ("\n" + memorySection));
@@ -533,14 +538,25 @@ public abstract class AbstractMessageHandler {
         memory.add(new SystemMessage(fullSystemPrompt));
         List<MessageEntity> messageHistory = chatContext.getMessageHistory();
         for (MessageEntity messageEntity : messageHistory) {
-            // 注意不要重复发送摘要消息
             if (messageEntity.isUserMessage()) {
-                List<String> fileUrls = messageEntity.getFileUrls();
-                for (String fileUrl : fileUrls) {
-                    memory.add(UserMessage.from(ImageContent.from(fileUrl)));
-                }
-                if (!StringUtils.isEmpty(messageEntity.getContent())) {
-                    memory.add(new UserMessage(messageEntity.getContent()));
+                String textContent = messageEntity.getContent();
+                List<String> historyFileUrls = messageEntity.getFileUrls();
+
+                if (StringUtils.isNotEmpty(textContent)) {
+                    if (historyFileUrls != null && !historyFileUrls.isEmpty()) {
+                        String fileHint = historyFileUrls.stream()
+                                .map(u -> u.substring(u.lastIndexOf('/') + 1))
+                                .collect(Collectors.joining(", "));
+                        memory.add(new UserMessage(textContent
+                                + "\n（该消息包含文件附件: " + fileHint + "）"));
+                    } else {
+                        memory.add(new UserMessage(textContent));
+                    }
+                } else if (historyFileUrls != null && !historyFileUrls.isEmpty()) {
+                    String fileHint = historyFileUrls.stream()
+                            .map(u -> u.substring(u.lastIndexOf('/') + 1))
+                            .collect(Collectors.joining(", "));
+                    memory.add(new UserMessage("用户上传了文件: " + fileHint));
                 }
             } else if (messageEntity.isAIMessage()) {
                 memory.add(new AiMessage(messageEntity.getContent()));
@@ -550,7 +566,43 @@ public abstract class AbstractMessageHandler {
         }
     }
 
-    /** 构造“记忆要点”片段，合入系统提示词尾部 */
+    /**
+     * 富化当前用户消息：下载文件内容并合并到 chatContext.userMessage 中。
+     *
+     * 此方法取代了原有的"临时 MessageEntity 混入 messageHistory → buildHistoryMessage
+     * → convertFileUrlsToContents → downloadTextFile"的复杂链路。
+     */
+    private void enrichCurrentMessageWithFiles(ChatContext chatContext) {
+        List<String> fileUrls = chatContext.getFileUrls();
+        if (fileUrls == null || fileUrls.isEmpty()) {
+            return;
+        }
+
+        // 下载文本文件内容
+        Map<String, String> downloaded = ossDownloadService.downloadTextFiles(fileUrls);
+
+        // 构建富化消息
+        String originalText = chatContext.getUserMessage();
+        String enrichedMessage = ossDownloadService.buildEnrichedMessage(originalText, fileUrls, downloaded);
+
+        // 更新 chatContext 中的消息（DB 中的 userMessageEntity 仍保留原始文本）
+        chatContext.setUserMessage(enrichedMessage);
+
+        // 检查是否有下载失败的文本文件，记录日志
+        Set<String> textExtensions = Set.of("txt", "md", "csv", "log", "json", "xml", "yml", "yaml",
+                "html", "htm", "js", "ts", "java", "py", "css", "sql",
+                "sh", "bat", "ini", "cfg", "conf");
+        List<String> failedTextFiles = fileUrls.stream()
+                .filter(url -> textExtensions.contains(OssDownloadService.getExtension(url)))
+                .filter(url -> !downloaded.containsKey(url))
+                .collect(Collectors.toList());
+
+        if (!failedTextFiles.isEmpty()) {
+            logger.error("部分文件下载失败，Agent 可能无法完整感知这些文件: {}", failedTextFiles);
+        }
+    }
+
+    /** 构造"记忆要点"片段，合入系统提示词尾部 */
     private String buildMemorySection(ChatContext chatContext) {
         try {
             int topK = MEMORY_TOP_K;

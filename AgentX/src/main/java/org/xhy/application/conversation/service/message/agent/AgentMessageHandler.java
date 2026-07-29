@@ -16,6 +16,7 @@ import org.xhy.domain.llm.service.HighAvailabilityDomainService;
 import org.xhy.domain.llm.service.LLMDomainService;
 import org.xhy.domain.user.service.UserSettingsDomainService;
 import org.xhy.infrastructure.llm.LLMServiceFactory;
+import org.xhy.infrastructure.storage.OssDownloadService;
 import org.xhy.application.billing.service.BillingService;
 import org.xhy.domain.user.service.AccountDomainService;
 
@@ -31,10 +32,11 @@ public class AgentMessageHandler extends TracingMessageHandler {
             UserSettingsDomainService userSettingsDomainService, LLMDomainService llmDomainService,
             BuiltInToolRegistry builtInToolRegistry, BillingService billingService,
             AccountDomainService accountDomainService, ChatSessionManager chatSessionManager,
-            TraceCollector traceCollector, AgentToolManager agentToolManager) {
+            OssDownloadService ossDownloadService, TraceCollector traceCollector,
+            AgentToolManager agentToolManager) {
         super(llmServiceFactory, messageDomainService, highAvailabilityDomainService, sessionDomainService,
                 userSettingsDomainService, llmDomainService, builtInToolRegistry, billingService, accountDomainService,
-                chatSessionManager, traceCollector);
+                chatSessionManager, ossDownloadService, traceCollector);
         this.agentToolManager = agentToolManager;
     }
 
