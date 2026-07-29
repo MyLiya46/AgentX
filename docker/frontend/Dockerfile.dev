@@ -1,5 +1,5 @@
 # AgentX前端开发环境Dockerfile
-FROM node:18-alpine
+FROM swr.cn-north-4.myhuaweicloud.com/ddn-k8s/docker.io/node:18-alpine
 
 # 安装开发工具
 RUN apk add --no-cache curl git

@@ -1,24 +1,28 @@
 # AgentX后端开发环境Dockerfile
 # 使用官方 Maven + JDK 17 基础镜像，避免容器内找不到 mvnw 的问题
-FROM maven:3.9-eclipse-temurin-17 AS dev
+FROM swr.cn-north-4.myhuaweicloud.com/ddn-k8s/docker.io/maven:3.9-eclipse-temurin-17 AS dev
 
 # 设置工作目录
 WORKDIR /app
 
-# 仅复制 Maven 必要文件以利用构建缓存
+# 配置Maven阿里云镜像加速
+COPY docker/settings.xml /root/.m2/settings.xml
+
+# 复制全部项目源码
 COPY AgentX/pom.xml ./
 COPY AgentX/.mvn ./.mvn
-
-# 预下载依赖（go-offline），加速后续构建
-RUN mvn -B -e -Dmaven.test.skip=true dependency:go-offline
-
-# 复制源代码
 COPY AgentX/src ./src
+
+# 一次性编译打包（依赖会自动下载，走阿里云镜像）
+RUN mvn -B -Dmaven.test.skip=true package
+
+# 清理构建产物避免冲突
+RUN mvn clean
 
 # 创建日志和存储目录
 RUN mkdir -p logs storage
 
-# 暴露后端端口（与应用实际端口保持一致，默认8088；仅供文档/可视化）
+# 暴露后端端口
 EXPOSE 8088
 
 # 开发环境JVM参数（启用调试和热重载）
