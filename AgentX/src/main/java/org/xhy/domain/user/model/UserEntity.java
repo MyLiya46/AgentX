@@ -4,11 +4,11 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
-import org.xhy.infrastructure.entity.BaseEntity;
+import org.xhy.infrastructure.entity.SoftDeleteEntity;
 import org.xhy.infrastructure.exception.BusinessException;
 
 @TableName("users")
-public class UserEntity extends BaseEntity {
+public class UserEntity extends SoftDeleteEntity {
     @TableId(type = IdType.ASSIGN_UUID)
     private String id;
     private String nickname;

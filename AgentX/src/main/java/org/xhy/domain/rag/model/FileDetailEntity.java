@@ -6,7 +6,7 @@ import java.util.Objects;
 
 import org.springframework.web.multipart.MultipartFile;
 import org.xhy.domain.rag.constant.FileProcessingStatusEnum;
-import org.xhy.infrastructure.entity.BaseEntity;
+import org.xhy.infrastructure.entity.SoftDeleteEntity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
@@ -17,7 +17,7 @@ import com.baomidou.mybatisplus.annotation.TableName;
  * @date 10:11 <br/>
  */
 @TableName("file_detail")
-public class FileDetailEntity extends BaseEntity implements Serializable {
+public class FileDetailEntity extends SoftDeleteEntity implements Serializable {
 
     @Serial
     private static final long serialVersionUID = -1055107743652307804L;

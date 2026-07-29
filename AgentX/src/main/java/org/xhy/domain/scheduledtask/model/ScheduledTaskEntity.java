@@ -6,14 +6,14 @@ import org.xhy.domain.scheduledtask.constant.ScheduleTaskStatus;
 import org.xhy.infrastructure.converter.RepeatConfigConverter;
 import org.xhy.infrastructure.converter.RepeatTypeConverter;
 import org.xhy.infrastructure.converter.ScheduledTaskStatusConverter;
-import org.xhy.infrastructure.entity.BaseEntity;
+import org.xhy.infrastructure.entity.SoftDeleteEntity;
 
 import java.time.LocalDateTime;
 import java.util.Objects;
 
 /** 定时任务实体类 代表一个用户创建的定时任务 */
 @TableName(value = "scheduled_tasks", autoResultMap = true)
-public class ScheduledTaskEntity extends BaseEntity {
+public class ScheduledTaskEntity extends SoftDeleteEntity {
 
     /** 定时任务唯一ID */
     @TableId(value = "id", type = IdType.ASSIGN_UUID)

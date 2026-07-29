@@ -6,7 +6,7 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import java.io.Serial;
 import java.io.Serializable;
 
-import org.xhy.infrastructure.entity.BaseEntity;
+import org.xhy.infrastructure.entity.SoftDeleteEntity;
 
 import com.baomidou.mybatisplus.annotation.TableName;
 
@@ -14,7 +14,7 @@ import com.baomidou.mybatisplus.annotation.TableName;
  * @date 20:24 <br/>
  */
 @TableName("document_unit")
-public class DocumentUnitEntity extends BaseEntity implements Serializable {
+public class DocumentUnitEntity extends SoftDeleteEntity implements Serializable {
 
     @Serial
     private static final long serialVersionUID = 7001509997040094844L;

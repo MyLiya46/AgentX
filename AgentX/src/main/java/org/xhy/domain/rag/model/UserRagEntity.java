@@ -9,14 +9,14 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 import org.xhy.domain.rag.constant.InstallType;
 import org.xhy.infrastructure.converter.InstallTypeConverter;
-import org.xhy.infrastructure.entity.BaseEntity;
+import org.xhy.infrastructure.entity.SoftDeleteEntity;
 
 /** 用户安装的RAG实体
  * @author xhy
  * @date 2025-07-16 <br/>
  */
 @TableName("user_rags")
-public class UserRagEntity extends BaseEntity implements Serializable {
+public class UserRagEntity extends SoftDeleteEntity implements Serializable {
 
     @Serial
     private static final long serialVersionUID = -1L;

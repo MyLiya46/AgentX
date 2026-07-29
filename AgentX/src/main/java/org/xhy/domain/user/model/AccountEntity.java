@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import org.xhy.infrastructure.entity.BaseEntity;
+import org.xhy.infrastructure.entity.SoftDeleteEntity;
 import org.xhy.infrastructure.exception.BusinessException;
 
 import java.math.BigDecimal;
@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 
 /** 账户实体 管理用户的资金余额信息 */
 @TableName(value = "accounts", autoResultMap = true)
-public class AccountEntity extends BaseEntity {
+public class AccountEntity extends SoftDeleteEntity {
 
     /** 账户唯一ID */
     @TableId(value = "id", type = IdType.ASSIGN_UUID)

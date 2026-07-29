@@ -5,13 +5,13 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import java.io.Serial;
 import java.io.Serializable;
 
-import org.xhy.infrastructure.entity.BaseEntity;
+import org.xhy.infrastructure.entity.SoftDeleteEntity;
 
 /** 此类为文档分片实体类，映射数据库表，不进行任何操作传参使用
  * @author shilong.zang
  * @date 19:20 <br/>
  */
-public class DocumentChunkEntity extends BaseEntity implements Serializable {
+public class DocumentChunkEntity extends SoftDeleteEntity implements Serializable {
 
     @Serial
     private static final long serialVersionUID = 5264446804791048406L;

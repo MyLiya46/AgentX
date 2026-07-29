@@ -5,14 +5,14 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import java.io.Serial;
 import java.io.Serializable;
-import org.xhy.infrastructure.entity.BaseEntity;
+import org.xhy.infrastructure.entity.SoftDeleteEntity;
 
 /** RAG知识库数据集实体
  * @author shilong.zang
  * @date 17:27 <br/>
  */
 @TableName("ai_rag_qa_dataset")
-public class RagQaDatasetEntity extends BaseEntity implements Serializable {
+public class RagQaDatasetEntity extends SoftDeleteEntity implements Serializable {
 
     @Serial
     private static final long serialVersionUID = -5803685552931418952L;

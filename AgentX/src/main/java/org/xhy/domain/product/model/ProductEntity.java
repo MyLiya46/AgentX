@@ -7,14 +7,14 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import org.xhy.domain.product.constant.BillingType;
 import org.xhy.infrastructure.converter.BillingTypeConverter;
 import org.xhy.infrastructure.converter.PricingConfigConverter;
-import org.xhy.infrastructure.entity.BaseEntity;
+import org.xhy.infrastructure.entity.SoftDeleteEntity;
 import org.xhy.infrastructure.exception.BusinessException;
 
 import java.util.Map;
 
 /** 商品实体 定义可计费项，关联业务，存储价格配置 */
 @TableName(value = "products", autoResultMap = true)
-public class ProductEntity extends BaseEntity {
+public class ProductEntity extends SoftDeleteEntity {
 
     /** 商品唯一ID */
     @TableId(value = "id", type = IdType.ASSIGN_UUID)

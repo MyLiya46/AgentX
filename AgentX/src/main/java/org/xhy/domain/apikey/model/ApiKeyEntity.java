@@ -4,13 +4,13 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import org.xhy.infrastructure.entity.BaseEntity;
+import org.xhy.infrastructure.entity.SoftDeleteEntity;
 
 import java.time.LocalDateTime;
 
 /** API密钥实体类 */
 @TableName(value = "api_keys", autoResultMap = true)
-public class ApiKeyEntity extends BaseEntity {
+public class ApiKeyEntity extends SoftDeleteEntity {
 
     /** API Key ID */
     @TableId(value = "id", type = IdType.ASSIGN_UUID)

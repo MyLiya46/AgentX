@@ -2,13 +2,13 @@ package org.xhy.domain.user.model;
 
 import com.baomidou.mybatisplus.annotation.*;
 import org.apache.ibatis.type.JdbcType;
-import org.xhy.infrastructure.entity.BaseEntity;
+import org.xhy.infrastructure.entity.SoftDeleteEntity;
 import org.xhy.infrastructure.converter.UserSettingsConfigConverter;
 import org.xhy.domain.user.model.config.UserSettingsConfig;
 
 /** 用户设置领域模型 */
 @TableName("user_settings")
-public class UserSettingsEntity extends BaseEntity {
+public class UserSettingsEntity extends SoftDeleteEntity {
 
     @TableId(type = IdType.ASSIGN_UUID)
     private String id;

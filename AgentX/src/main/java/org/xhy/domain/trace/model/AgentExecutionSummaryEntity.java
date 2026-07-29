@@ -1,14 +1,14 @@
 package org.xhy.domain.trace.model;
 
 import com.baomidou.mybatisplus.annotation.*;
-import org.xhy.infrastructure.entity.BaseEntity;
+import org.xhy.infrastructure.entity.SoftDeleteEntity;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 /** Agent执行链路汇总实体 记录每次Agent执行的整体信息和汇总数据 */
 @TableName("agent_execution_summary")
-public class AgentExecutionSummaryEntity extends BaseEntity {
+public class AgentExecutionSummaryEntity extends SoftDeleteEntity {
 
     /** 主键ID */
     @TableId(value = "id", type = IdType.AUTO)

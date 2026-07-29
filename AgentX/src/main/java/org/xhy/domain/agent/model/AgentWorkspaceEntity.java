@@ -6,11 +6,11 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import org.apache.ibatis.type.JdbcType;
 import org.xhy.infrastructure.converter.LLMModelConfigConverter;
-import org.xhy.infrastructure.entity.BaseEntity;
+import org.xhy.infrastructure.entity.SoftDeleteEntity;
 
 /** Agent工作区实体类 用于记录用户添加到工作区的Agent */
 @TableName(value = "agent_workspace", autoResultMap = true)
-public class AgentWorkspaceEntity extends BaseEntity {
+public class AgentWorkspaceEntity extends SoftDeleteEntity {
 
     /** 主键ID */
     @TableId(value = "id", type = IdType.ASSIGN_UUID)

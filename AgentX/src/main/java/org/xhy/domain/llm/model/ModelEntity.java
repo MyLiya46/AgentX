@@ -4,12 +4,12 @@ import com.baomidou.mybatisplus.annotation.*;
 import org.apache.ibatis.type.JdbcType;
 import org.xhy.domain.llm.model.enums.ModelType;
 import org.xhy.infrastructure.converter.ModelTypeConverter;
-import org.xhy.infrastructure.entity.BaseEntity;
+import org.xhy.infrastructure.entity.SoftDeleteEntity;
 import org.xhy.infrastructure.exception.BusinessException;
 
 /** 模型领域模型 */
 @TableName("models")
-public class ModelEntity extends BaseEntity {
+public class ModelEntity extends SoftDeleteEntity {
 
     @TableId(type = IdType.ASSIGN_UUID)
     private String id;

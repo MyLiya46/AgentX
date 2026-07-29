@@ -9,14 +9,14 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.List;
 import org.xhy.infrastructure.converter.ListStringConverter;
-import org.xhy.infrastructure.entity.BaseEntity;
+import org.xhy.infrastructure.entity.SoftDeleteEntity;
 
 /** RAG版本实体（完整快照）
  * @author xhy
  * @date 2025-07-16 <br/>
  */
 @TableName("rag_versions")
-public class RagVersionEntity extends BaseEntity implements Serializable {
+public class RagVersionEntity extends SoftDeleteEntity implements Serializable {
 
     @Serial
     private static final long serialVersionUID = -1L;

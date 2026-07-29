@@ -7,7 +7,7 @@ import com.baomidou.mybatisplus.annotation.TableName;
 
 import org.xhy.infrastructure.converter.ListStringConverter;
 import org.xhy.infrastructure.converter.MapConverter;
-import org.xhy.infrastructure.entity.BaseEntity;
+import org.xhy.infrastructure.entity.SoftDeleteEntity;
 import org.xhy.infrastructure.exception.BusinessException;
 
 import java.time.LocalDateTime;
@@ -17,7 +17,7 @@ import java.util.Map;
 
 /** Agent实体类，代表一个AI助手 */
 @TableName(value = "agents", autoResultMap = true)
-public class AgentEntity extends BaseEntity {
+public class AgentEntity extends SoftDeleteEntity {
 
     /** Agent唯一ID */
     @TableId(value = "id", type = IdType.ASSIGN_UUID)

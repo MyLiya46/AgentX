@@ -5,14 +5,14 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import java.io.Serial;
 import java.io.Serializable;
-import org.xhy.infrastructure.entity.BaseEntity;
+import org.xhy.infrastructure.entity.SoftDeleteEntity;
 
 /** RAG版本文件实体（文件快照）
  * @author xhy
  * @date 2025-07-16 <br/>
  */
 @TableName("rag_version_files")
-public class RagVersionFileEntity extends BaseEntity implements Serializable {
+public class RagVersionFileEntity extends SoftDeleteEntity implements Serializable {
 
     @Serial
     private static final long serialVersionUID = -1L;

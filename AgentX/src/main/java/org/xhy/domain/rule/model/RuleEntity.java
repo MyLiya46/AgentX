@@ -6,12 +6,12 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import org.xhy.domain.rule.constant.RuleHandlerKey;
 import org.xhy.infrastructure.converter.RuleHandlerKeyConverter;
-import org.xhy.infrastructure.entity.BaseEntity;
+import org.xhy.infrastructure.entity.SoftDeleteEntity;
 import org.xhy.infrastructure.exception.BusinessException;
 
 /** 规则实体 定义计费规则类型，独立于任何业务 */
 @TableName(value = "rules", autoResultMap = true)
-public class RuleEntity extends BaseEntity {
+public class RuleEntity extends SoftDeleteEntity {
 
     /** 规则唯一ID */
     @TableId(value = "id", type = IdType.ASSIGN_UUID)

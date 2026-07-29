@@ -2,13 +2,13 @@ package org.xhy.domain.conversation.model;
 
 import com.baomidou.mybatisplus.annotation.*;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
-import org.xhy.infrastructure.entity.BaseEntity;
+import org.xhy.infrastructure.entity.SoftDeleteEntity;
 
 import java.time.LocalDateTime;
 
 /** 会话实体类，代表一个独立的对话会话/主题 */
 @TableName("sessions")
-public class SessionEntity extends BaseEntity {
+public class SessionEntity extends SoftDeleteEntity {
 
     /** 会话唯一ID */
     @TableId(value = "id", type = IdType.ASSIGN_UUID)

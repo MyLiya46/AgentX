@@ -8,7 +8,7 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import org.xhy.domain.agent.constant.PublishStatus;
 import org.xhy.infrastructure.converter.ListConverter;
 import org.xhy.infrastructure.converter.MapConverter;
-import org.xhy.infrastructure.entity.BaseEntity;
+import org.xhy.infrastructure.entity.SoftDeleteEntity;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -17,7 +17,7 @@ import java.util.Map;
 
 /** Agent版本实体类，代表一个Agent的发布版本 */
 @TableName(value = "agent_versions", autoResultMap = true)
-public class AgentVersionEntity extends BaseEntity {
+public class AgentVersionEntity extends SoftDeleteEntity {
 
     /** 版本唯一ID */
     @TableId(value = "id", type = IdType.ASSIGN_UUID)

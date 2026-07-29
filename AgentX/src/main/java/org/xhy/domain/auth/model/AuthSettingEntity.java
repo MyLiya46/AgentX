@@ -5,13 +5,13 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import org.xhy.infrastructure.converter.MapConverter;
-import org.xhy.infrastructure.entity.BaseEntity;
+import org.xhy.infrastructure.entity.SoftDeleteEntity;
 
 import java.util.Map;
 
 /** 认证配置实体类 */
 @TableName("auth_settings")
-public class AuthSettingEntity extends BaseEntity {
+public class AuthSettingEntity extends SoftDeleteEntity {
 
     @TableId(type = IdType.ASSIGN_UUID)
     private String id;

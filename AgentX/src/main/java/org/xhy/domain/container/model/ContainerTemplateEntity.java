@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import org.xhy.domain.container.constant.ContainerType;
-import org.xhy.infrastructure.entity.BaseEntity;
+import org.xhy.infrastructure.entity.SoftDeleteEntity;
 import org.xhy.infrastructure.converter.ContainerTypeConverter;
 import org.xhy.infrastructure.converter.JsonConverter;
 
@@ -13,7 +13,7 @@ import java.util.Map;
 
 /** 容器模板实体 */
 @TableName(value = "container_templates")
-public class ContainerTemplateEntity extends BaseEntity {
+public class ContainerTemplateEntity extends SoftDeleteEntity {
 
     @TableId(type = IdType.ASSIGN_UUID)
     private String id;

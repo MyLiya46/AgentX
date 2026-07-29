@@ -9,13 +9,13 @@ import org.xhy.domain.tool.model.config.ToolDefinition;
 import org.xhy.infrastructure.converter.ListStringConverter;
 import org.xhy.infrastructure.converter.ToolDefinitionListConverter;
 import org.xhy.infrastructure.converter.UploadTypeConverter;
-import org.xhy.infrastructure.entity.BaseEntity;
+import org.xhy.infrastructure.entity.SoftDeleteEntity;
 
 import java.util.List;
 
 /** 用户工具关联实体类 */
 @TableName(value = "user_tools", autoResultMap = true)
-public class UserToolEntity extends BaseEntity {
+public class UserToolEntity extends SoftDeleteEntity {
 
     /** 唯一ID */
     @TableId(value = "id", type = IdType.ASSIGN_UUID)

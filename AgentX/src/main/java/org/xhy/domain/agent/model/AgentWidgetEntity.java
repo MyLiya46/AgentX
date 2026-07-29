@@ -7,7 +7,7 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import org.xhy.domain.agent.constant.WidgetType;
 import org.xhy.infrastructure.converter.ListStringConverter;
 import org.xhy.infrastructure.converter.WidgetTypeConverter;
-import org.xhy.infrastructure.entity.BaseEntity;
+import org.xhy.infrastructure.entity.SoftDeleteEntity;
 import org.xhy.infrastructure.exception.BusinessException;
 
 import java.time.LocalDateTime;
@@ -16,7 +16,7 @@ import java.util.UUID;
 
 /** Agent小组件配置实体类，用于管理Agent的网站嵌入配置 */
 @TableName(value = "agent_widgets", autoResultMap = true)
-public class AgentWidgetEntity extends BaseEntity {
+public class AgentWidgetEntity extends SoftDeleteEntity {
 
     /** 主键ID */
     @TableId(value = "id", type = IdType.ASSIGN_UUID)

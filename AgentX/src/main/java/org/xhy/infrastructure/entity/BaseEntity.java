@@ -2,7 +2,6 @@ package org.xhy.infrastructure.entity;
 
 import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableLogic;
 
 import java.time.LocalDateTime;
 
@@ -13,9 +12,6 @@ public class BaseEntity {
 
     @TableField(fill = FieldFill.INSERT_UPDATE)
     protected LocalDateTime updatedAt;
-
-    @TableLogic
-    protected LocalDateTime deletedAt;
 
     @TableField(exist = false)
     private Operator operatedBy = Operator.USER;
@@ -42,14 +38,6 @@ public class BaseEntity {
 
     public void setUpdatedAt(LocalDateTime updatedAt) {
         this.updatedAt = updatedAt;
-    }
-
-    public LocalDateTime getDeletedAt() {
-        return deletedAt;
-    }
-
-    public void setDeletedAt(LocalDateTime deletedAt) {
-        this.deletedAt = deletedAt;
     }
 
     public Operator getOperatedBy() {

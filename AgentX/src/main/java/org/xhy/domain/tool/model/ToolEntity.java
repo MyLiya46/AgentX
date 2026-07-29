@@ -14,7 +14,7 @@ import org.xhy.infrastructure.converter.ToolDefinitionListConverter;
 import org.xhy.infrastructure.converter.ToolStatusConverter;
 import org.xhy.infrastructure.converter.ToolTypeConverter;
 import org.xhy.infrastructure.converter.UploadTypeConverter;
-import org.xhy.infrastructure.entity.BaseEntity;
+import org.xhy.infrastructure.entity.SoftDeleteEntity;
 
 import java.util.List;
 import java.util.Map;
@@ -22,7 +22,7 @@ import java.util.stream.Collectors;
 
 /** 工具实体类 */
 @TableName(value = "tools", autoResultMap = true)
-public class ToolEntity extends BaseEntity {
+public class ToolEntity extends SoftDeleteEntity {
 
     /** 工具唯一ID */
     @TableId(value = "id", type = IdType.ASSIGN_UUID)

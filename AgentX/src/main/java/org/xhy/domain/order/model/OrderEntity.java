@@ -13,7 +13,7 @@ import org.xhy.infrastructure.converter.OrderStatusConverter;
 import org.xhy.infrastructure.converter.OrderTypeConverter;
 import org.xhy.infrastructure.converter.PaymentPlatformConverter;
 import org.xhy.infrastructure.converter.PaymentTypeConverter;
-import org.xhy.infrastructure.entity.BaseEntity;
+import org.xhy.infrastructure.entity.SoftDeleteEntity;
 import org.xhy.infrastructure.exception.BusinessException;
 
 import java.math.BigDecimal;
@@ -23,7 +23,7 @@ import java.util.UUID;
 
 /** 订单实体 */
 @TableName(value = "orders", autoResultMap = true)
-public class OrderEntity extends BaseEntity {
+public class OrderEntity extends SoftDeleteEntity {
 
     /** 订单唯一ID */
     @TableId(value = "id", type = IdType.ASSIGN_UUID)

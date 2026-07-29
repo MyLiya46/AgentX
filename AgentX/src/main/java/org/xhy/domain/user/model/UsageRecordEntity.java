@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import org.xhy.infrastructure.converter.QuantityDataConverter;
-import org.xhy.infrastructure.entity.BaseEntity;
+import org.xhy.infrastructure.entity.SoftDeleteEntity;
 import org.xhy.infrastructure.exception.BusinessException;
 
 import java.math.BigDecimal;
@@ -14,7 +14,7 @@ import java.util.Map;
 
 /** 用量记录实体 记录每一次用量事件，用于审计和生成账单 */
 @TableName(value = "usage_records", autoResultMap = true)
-public class UsageRecordEntity extends BaseEntity {
+public class UsageRecordEntity extends SoftDeleteEntity {
 
     /** 记录ID */
     @TableId(value = "id", type = IdType.ASSIGN_UUID)

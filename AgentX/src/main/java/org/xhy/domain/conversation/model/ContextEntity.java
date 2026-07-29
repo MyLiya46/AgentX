@@ -7,14 +7,14 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import org.apache.ibatis.type.JdbcType;
 import org.xhy.infrastructure.converter.JsonToStringConverter;
 import org.xhy.infrastructure.converter.ListConverter;
-import org.xhy.infrastructure.entity.BaseEntity;
+import org.xhy.infrastructure.entity.SoftDeleteEntity;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /** 上下文实体类，管理会话的上下文窗口 */
 @TableName("context")
-public class ContextEntity extends BaseEntity {
+public class ContextEntity extends SoftDeleteEntity {
 
     /** 上下文唯一ID */
     @TableId(value = "id", type = IdType.ASSIGN_UUID)

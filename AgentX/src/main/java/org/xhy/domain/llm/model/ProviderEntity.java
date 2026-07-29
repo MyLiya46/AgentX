@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.annotation.*;
 import org.xhy.domain.llm.model.config.ProviderConfig;
 import org.xhy.infrastructure.converter.ProviderConfigConverter;
 import org.xhy.infrastructure.converter.ProviderProtocolConverter;
-import org.xhy.infrastructure.entity.BaseEntity;
+import org.xhy.infrastructure.entity.SoftDeleteEntity;
 import org.xhy.infrastructure.exception.BusinessException;
 import org.xhy.infrastructure.llm.protocol.enums.ProviderProtocol;
 
@@ -12,7 +12,7 @@ import java.util.Objects;
 
 /** 服务提供商领域模型 */
 @TableName("providers")
-public class ProviderEntity extends BaseEntity {
+public class ProviderEntity extends SoftDeleteEntity {
 
     @TableId(type = IdType.ASSIGN_UUID)
     private String id;

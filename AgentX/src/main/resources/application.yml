@@ -71,9 +71,6 @@ mybatis-plus:
   global-config:
     db-config:
       id-type: auto
-      logic-delete-field: deleted_at
-      logic-delete-value: now()
-      logic-not-delete-value: "null"
     banner: false
 
 logging:

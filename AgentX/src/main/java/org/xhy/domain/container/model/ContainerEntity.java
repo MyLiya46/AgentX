@@ -8,14 +8,14 @@ import org.xhy.domain.container.constant.ContainerStatus;
 import org.xhy.domain.container.constant.ContainerType;
 import org.xhy.infrastructure.converter.ContainerStatusConverter;
 import org.xhy.infrastructure.converter.ContainerTypeConverter;
-import org.xhy.infrastructure.entity.BaseEntity;
+import org.xhy.infrastructure.entity.SoftDeleteEntity;
 import org.xhy.infrastructure.entity.Operator;
 
 import java.time.LocalDateTime;
 
 /** 容器实体 */
 @TableName("user_containers")
-public class ContainerEntity extends BaseEntity {
+public class ContainerEntity extends SoftDeleteEntity {
     @TableId(type = IdType.ASSIGN_UUID)
     private String id;
     /** 容器名称 */

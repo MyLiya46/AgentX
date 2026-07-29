@@ -3,13 +3,13 @@ package org.xhy.domain.task.model;
 import com.baomidou.mybatisplus.annotation.*;
 import org.xhy.domain.task.constant.TaskStatus;
 import org.xhy.infrastructure.converter.ScheduledTaskStatusConverter;
-import org.xhy.infrastructure.entity.BaseEntity;
+import org.xhy.infrastructure.entity.SoftDeleteEntity;
 
 import java.time.LocalDateTime;
 
 /** 任务实体类 */
 @TableName("agent_tasks")
-public class TaskEntity extends BaseEntity {
+public class TaskEntity extends SoftDeleteEntity {
     /** 任务ID */
     @TableId(value = "id", type = IdType.ASSIGN_UUID)
     private String id;
