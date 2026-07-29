@@ -14,8 +14,6 @@ AgentX 是一个基于大模型 (LLM) 和多能力平台 (MCP) 的智能 Agent �
 #### 步骤1：准备配置文件
 
 ```bash
-# 下载配置文件模板
-curl -O https://raw.githubusercontent.com/lucky-aeon/AgentX/master/.env.example
 # 复制并编辑配置
 cp .env.example .env
 # 根据需要修改 .env 文件中的配置
@@ -31,6 +29,7 @@ docker run -d \
   -p 3000:3000 \
   -p 8088:8088 \
   -p 5432:5432 \
+  -p 6379:6379 \
   -p 5672:5672 \
   -p 15672:15672 \
   --env-file .env \
@@ -50,6 +49,7 @@ docker run -d \
 | **主应用** | http://localhost:3000 | 前端界面 |
 | **后端API** | http://localhost:8088 | API服务 |
 | **数据库** | http://localhost:5432 | PostgreSQL（可选） |
+| **Redis缓存** | http://localhost:6379 | Redis缓存（可选） |
 | **RabbitMQ** | http://localhost:5672 | 消息队列（可选） |
 | **RabbitMQ管理** | http://localhost:15672 | 队列管理界面（可选） |
 
@@ -98,14 +98,17 @@ docker run -d \
 
 ```bash
 # 1. 克隆项目
-git clone https://github.com/lucky-aeon/AgentX.git
+git clone https://github.com/MyLiya46/AgentX.git
+
+# 2. 启动
 cd AgentX/deploy
+$env:DOCKERFILE_SUFFIX = ".dev"
+docker compose --profile local up -d
 
-# 2. 启动开发环境（Linux/macOS）
-./start.sh
-
-# 2. 启动开发环境（Windows）
-start.bat
+# 3. 关闭
+cd AgentX/deploy
+$env:DOCKERFILE_SUFFIX = ".dev"
+docker compose --profile local down
 ```
 
 **开发环境特色**：
@@ -147,6 +150,10 @@ AgentX使用`.env`配置文件进行环境变量管理，支持丰富的自定�
 | `SERVER_PORT` | 后端API端口 | `8088` |
 | `DB_PASSWORD` | 数据库密码 | `agentx_pass` |
 | `RABBITMQ_PASSWORD` | 消息队列密码 | `guest` |
+| **缓存服务** |  |  |
+| `REDIS_ENABLED` | 启用Redis缓存（false时降级为无缓存） | `true` |
+| `REDIS_HOST` | Redis服务地址 | `redis` / `localhost` |
+| `REDIS_PORT` | Redis服务端口 | `6379` |
 | **安全配置** |  |  |
 | `JWT_SECRET` | JWT密钥（必须修改） | 需要设置 |
 | `AGENTX_ADMIN_PASSWORD` | 管理员密码 | `admin123` |
@@ -157,13 +164,10 @@ AgentX使用`.env`配置文件进行环境变量管理，支持丰富的自定�
 ### 🔧 快速配置
 
 ```bash
-# 1. 获取配置模板
-curl -O https://raw.githubusercontent.com/lucky-aeon/AgentX/main/.env.example
-
-# 2. 创建配置文件
+# 1. 创建配置文件
 cp .env.example .env
 
-# 3. 编辑配置（必改项）
+# 2. 编辑配置（必改项）
 vim .env
 ```
 
@@ -202,6 +206,11 @@ EXTERNAL_RABBITMQ_HOST=your-rabbitmq-host
 RABBITMQ_HOST=your-rabbitmq-host
 RABBITMQ_USERNAME=your-mq-user
 RABBITMQ_PASSWORD=your-mq-password
+
+# 使用外部Redis缓存
+REDIS_HOST=your-redis-host
+REDIS_PORT=6379
+REDIS_ENABLED=true
 ```
 
 </details>
