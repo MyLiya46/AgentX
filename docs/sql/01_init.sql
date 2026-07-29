@@ -156,9 +156,9 @@ comment on column public.agents.knowledge_base_ids is '关联的知识库ID列�
 
 create table public.ai_rag_qa_dataset (
                                           id character varying(64) primary key not null,
-                                          name character varying(64),
-                                          icon character varying(64),
-                                          description character varying(64),
+                                          name character varying(128),
+                                          icon character varying(512),
+                                          description character varying(1024),
                                           user_id character varying(64),
                                           created_at timestamp without time zone not null default CURRENT_TIMESTAMP,
                                           updated_at timestamp without time zone not null default CURRENT_TIMESTAMP,
