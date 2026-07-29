@@ -5,7 +5,7 @@ import org.xhy.domain.tool.constant.ToolType;
 import org.xhy.domain.tool.constant.UploadType;
 import org.xhy.domain.tool.model.config.ToolDefinition;
 
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.util.List;
 
 /** 工具DTO */
@@ -27,8 +27,8 @@ public class ToolDTO {
     private Integer installCount; // 安装数量
     private String currentVersion; // 当前版本号
     private String installCommand;
-    private LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
+    private OffsetDateTime createdAt;
+    private OffsetDateTime updatedAt;
     private String rejectReason;
     private ToolStatus failedStepStatus;
     private String mcpServerName;
@@ -167,19 +167,19 @@ public class ToolDTO {
         this.currentVersion = currentVersion;
     }
 
-    public LocalDateTime getCreatedAt() {
+    public OffsetDateTime getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(LocalDateTime createdAt) {
+    public void setCreatedAt(OffsetDateTime createdAt) {
         this.createdAt = createdAt;
     }
 
-    public LocalDateTime getUpdatedAt() {
+    public OffsetDateTime getUpdatedAt() {
         return updatedAt;
     }
 
-    public void setUpdatedAt(LocalDateTime updatedAt) {
+    public void setUpdatedAt(OffsetDateTime updatedAt) {
         this.updatedAt = updatedAt;
     }
 

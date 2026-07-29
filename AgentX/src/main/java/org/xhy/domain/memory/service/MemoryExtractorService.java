@@ -122,13 +122,20 @@ public class MemoryExtractorService {
     /** 异步抽取并持久化（供外部直接调用，无需处理返回值） */
     @Async("memoryTaskExecutor")
     public void extractAndPersistAsync(String userId, String sessionId, String userMessage) {
+        long start = System.currentTimeMillis();
         try {
             List<CandidateMemory> candidates = extract(userId, sessionId, userMessage);
-            if (candidates != null && !candidates.isEmpty()) {
-                memoryDomainService.saveMemories(userId, sessionId, candidates);
+            if (candidates == null || candidates.isEmpty()) {
+                log.debug("本轮对话无有效记忆可抽取 userId={}, sessionId={}", userId, sessionId);
+                return;
             }
+            List<String> itemIds = memoryDomainService.saveMemories(userId, sessionId, candidates);
+            long elapsed = System.currentTimeMillis() - start;
+            log.info("记忆抽取完成 userId={}, sessionId={}, 抽取数量={}, 耗时={}ms", userId, sessionId, itemIds.size(), elapsed);
         } catch (Exception e) {
-            log.warn("async extract&persist failed userId={}, sessionId={}, err={}", userId, sessionId, e.getMessage());
+            long elapsed = System.currentTimeMillis() - start;
+            log.error("记忆抽取异步任务失败 userId={}, sessionId={}, 耗时={}ms, err={}", userId, sessionId, elapsed, e.getMessage(),
+                    e);
         }
     }
 

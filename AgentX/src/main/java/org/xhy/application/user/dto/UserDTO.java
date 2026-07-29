@@ -1,6 +1,6 @@
 package org.xhy.application.user.dto;
 
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 
 public class UserDTO {
 
@@ -22,9 +22,9 @@ public class UserDTO {
 
     private Boolean isAdmin;
 
-    private LocalDateTime createdAt;
+    private OffsetDateTime createdAt;
 
-    private LocalDateTime updatedAt;
+    private OffsetDateTime updatedAt;
 
     public String getId() {
         return id;
@@ -102,19 +102,19 @@ public class UserDTO {
         return Boolean.TRUE.equals(isAdmin);
     }
 
-    public LocalDateTime getCreatedAt() {
+    public OffsetDateTime getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(LocalDateTime createdAt) {
+    public void setCreatedAt(OffsetDateTime createdAt) {
         this.createdAt = createdAt;
     }
 
-    public LocalDateTime getUpdatedAt() {
+    public OffsetDateTime getUpdatedAt() {
         return updatedAt;
     }
 
-    public void setUpdatedAt(LocalDateTime updatedAt) {
+    public void setUpdatedAt(OffsetDateTime updatedAt) {
         this.updatedAt = updatedAt;
     }
 }

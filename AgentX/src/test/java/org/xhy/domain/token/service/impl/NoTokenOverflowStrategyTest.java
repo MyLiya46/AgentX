@@ -8,7 +8,8 @@ import org.xhy.domain.token.model.TokenProcessResult;
 import org.xhy.domain.token.model.config.TokenOverflowConfig;
 import org.xhy.domain.shared.enums.TokenOverflowStrategyEnum;
 
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -40,7 +41,7 @@ public class NoTokenOverflowStrategyTest {
             message.setRole(i % 2 == 0 ? "user" : "assistant");
             message.setContent("测试消息 " + i);
             message.setTokenCount(100); // 每条消息100个token
-            message.setCreatedAt(LocalDateTime.now().minusMinutes(10 - i)); // 按时间顺序
+            message.setCreatedAt(OffsetDateTime.now(ZoneId.of("Asia/Shanghai")).minusMinutes(10 - i)); // 按时间顺序
             messages.add(message);
         }
     }

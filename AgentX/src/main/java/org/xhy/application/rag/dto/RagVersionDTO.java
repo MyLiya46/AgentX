@@ -1,6 +1,6 @@
 package org.xhy.application.rag.dto;
 
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.util.List;
 
 /** RAG版本DTO
@@ -61,16 +61,16 @@ public class RagVersionDTO {
     private String rejectReason;
 
     /** 审核时间 */
-    private LocalDateTime reviewTime;
+    private OffsetDateTime reviewTime;
 
     /** 发布时间 */
-    private LocalDateTime publishedAt;
+    private OffsetDateTime publishedAt;
 
     /** 创建时间 */
-    private LocalDateTime createdAt;
+    private OffsetDateTime createdAt;
 
     /** 更新时间 */
-    private LocalDateTime updatedAt;
+    private OffsetDateTime updatedAt;
 
     /** 安装次数 */
     private Long installCount;
@@ -214,35 +214,35 @@ public class RagVersionDTO {
         this.rejectReason = rejectReason;
     }
 
-    public LocalDateTime getReviewTime() {
+    public OffsetDateTime getReviewTime() {
         return reviewTime;
     }
 
-    public void setReviewTime(LocalDateTime reviewTime) {
+    public void setReviewTime(OffsetDateTime reviewTime) {
         this.reviewTime = reviewTime;
     }
 
-    public LocalDateTime getPublishedAt() {
+    public OffsetDateTime getPublishedAt() {
         return publishedAt;
     }
 
-    public void setPublishedAt(LocalDateTime publishedAt) {
+    public void setPublishedAt(OffsetDateTime publishedAt) {
         this.publishedAt = publishedAt;
     }
 
-    public LocalDateTime getCreatedAt() {
+    public OffsetDateTime getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(LocalDateTime createdAt) {
+    public void setCreatedAt(OffsetDateTime createdAt) {
         this.createdAt = createdAt;
     }
 
-    public LocalDateTime getUpdatedAt() {
+    public OffsetDateTime getUpdatedAt() {
         return updatedAt;
     }
 
-    public void setUpdatedAt(LocalDateTime updatedAt) {
+    public void setUpdatedAt(OffsetDateTime updatedAt) {
         this.updatedAt = updatedAt;
     }
 

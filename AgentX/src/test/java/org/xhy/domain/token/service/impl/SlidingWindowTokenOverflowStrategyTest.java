@@ -7,7 +7,8 @@ import org.xhy.domain.token.model.TokenMessage;
 import org.xhy.domain.token.model.TokenProcessResult;
 import org.xhy.domain.token.model.config.TokenOverflowConfig;
 
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -100,7 +101,7 @@ public class SlidingWindowTokenOverflowStrategyTest {
             message.setRole(i % 2 == 0 ? "user" : "assistant");
             message.setContent("测试消息 " + i);
             message.setTokenCount(tokensPerMessage);
-            message.setCreatedAt(LocalDateTime.now().minusMinutes(count - i)); // 按时间顺序
+            message.setCreatedAt(OffsetDateTime.now(ZoneId.of("Asia/Shanghai")).minusMinutes(count - i)); // 按时间顺序
             messages.add(message);
         }
 

@@ -4,7 +4,8 @@ import com.baomidou.mybatisplus.annotation.*;
 import org.xhy.infrastructure.entity.SoftDeleteEntity;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
+import java.time.ZoneId;
 
 /** Agent执行链路汇总实体 记录每次Agent执行的整体信息和汇总数据 */
 @TableName("agent_execution_summary")
@@ -28,11 +29,11 @@ public class AgentExecutionSummaryEntity extends SoftDeleteEntity {
 
     /** 执行开始时间 */
     @TableField("execution_start_time")
-    private LocalDateTime executionStartTime;
+    private OffsetDateTime executionStartTime;
 
     /** 执行结束时间 */
     @TableField("execution_end_time")
-    private LocalDateTime executionEndTime;
+    private OffsetDateTime executionEndTime;
 
     /** 总执行时间(毫秒) */
     @TableField("total_execution_time")
@@ -84,14 +85,14 @@ public class AgentExecutionSummaryEntity extends SoftDeleteEntity {
         entity.setUserId(userId);
         entity.setSessionId(sessionId);
         entity.setAgentId(agentId);
-        entity.setExecutionStartTime(LocalDateTime.now());
+        entity.setExecutionStartTime(OffsetDateTime.now(ZoneId.of("Asia/Shanghai")));
         entity.setExecutionSuccess(false); // 默认为失败，执行完成后设置为成功
         return entity;
     }
 
     /** 标记执行完成 */
     public void markCompleted(boolean success, String errorPhase, String errorMessage) {
-        this.executionEndTime = LocalDateTime.now();
+        this.executionEndTime = OffsetDateTime.now(ZoneId.of("Asia/Shanghai"));
         this.executionSuccess = success;
         this.errorPhase = errorPhase;
         this.errorMessage = errorMessage;
@@ -160,19 +161,19 @@ public class AgentExecutionSummaryEntity extends SoftDeleteEntity {
         this.agentId = agentId;
     }
 
-    public LocalDateTime getExecutionStartTime() {
+    public OffsetDateTime getExecutionStartTime() {
         return executionStartTime;
     }
 
-    public void setExecutionStartTime(LocalDateTime executionStartTime) {
+    public void setExecutionStartTime(OffsetDateTime executionStartTime) {
         this.executionStartTime = executionStartTime;
     }
 
-    public LocalDateTime getExecutionEndTime() {
+    public OffsetDateTime getExecutionEndTime() {
         return executionEndTime;
     }
 
-    public void setExecutionEndTime(LocalDateTime executionEndTime) {
+    public void setExecutionEndTime(OffsetDateTime executionEndTime) {
         this.executionEndTime = executionEndTime;
     }
 

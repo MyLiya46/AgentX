@@ -3,7 +3,8 @@ package org.xhy.domain.trace.event;
 import org.springframework.context.ApplicationEvent;
 import org.xhy.domain.trace.model.TraceContext;
 
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
+import java.time.ZoneId;
 
 /** 执行开始事件 */
 public class ExecutionStartedEvent extends ApplicationEvent {
@@ -11,18 +12,18 @@ public class ExecutionStartedEvent extends ApplicationEvent {
     private final TraceContext traceContext;
     private final String userMessage;
     private final String messageType;
-    private final LocalDateTime userMessageTime;
+    private final OffsetDateTime userMessageTime;
 
     public ExecutionStartedEvent(Object source, TraceContext traceContext, String userMessage, String messageType) {
         super(source);
         this.traceContext = traceContext;
         this.userMessage = userMessage;
         this.messageType = messageType;
-        this.userMessageTime = LocalDateTime.now(); // 默认使用当前时间
+        this.userMessageTime = OffsetDateTime.now(ZoneId.of("Asia/Shanghai")); // 默认使用当前时间
     }
 
     public ExecutionStartedEvent(Object source, TraceContext traceContext, String userMessage, String messageType,
-            LocalDateTime userMessageTime) {
+            OffsetDateTime userMessageTime) {
         super(source);
         this.traceContext = traceContext;
         this.userMessage = userMessage;
@@ -42,7 +43,7 @@ public class ExecutionStartedEvent extends ApplicationEvent {
         return messageType;
     }
 
-    public LocalDateTime getUserMessageTime() {
+    public OffsetDateTime getUserMessageTime() {
         return userMessageTime;
     }
 }

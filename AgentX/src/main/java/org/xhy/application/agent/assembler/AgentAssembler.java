@@ -9,7 +9,8 @@ import org.xhy.interfaces.dto.agent.request.CreateAgentRequest;
 import org.xhy.interfaces.dto.agent.request.SearchAgentsRequest;
 import org.xhy.interfaces.dto.agent.request.UpdateAgentRequest;
 
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -38,7 +39,7 @@ public class AgentAssembler {
                 request.getKnowledgeBaseIds() != null ? request.getKnowledgeBaseIds() : new ArrayList<>());
 
         // 设置创建和更新时间
-        LocalDateTime now = LocalDateTime.now();
+        OffsetDateTime now = OffsetDateTime.now(ZoneId.of("Asia/Shanghai"));
         entity.setCreatedAt(now);
         entity.setUpdatedAt(now);
         entity.setToolIds(request.getToolIds());

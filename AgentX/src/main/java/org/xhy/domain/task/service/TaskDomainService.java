@@ -7,7 +7,8 @@ import org.xhy.domain.task.model.TaskAggregate;
 import org.xhy.domain.task.model.TaskEntity;
 import org.xhy.domain.task.repository.TaskRepository;
 
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
+import java.time.ZoneId;
 import java.util.List;
 
 /** 任务领域服务 */
@@ -21,7 +22,7 @@ public class TaskDomainService {
     }
 
     public TaskEntity addTask(TaskEntity taskEntity) {
-        taskEntity.setStartTime(LocalDateTime.now());
+        taskEntity.setStartTime(OffsetDateTime.now(ZoneId.of("Asia/Shanghai")));
         taskRepository.checkInsert(taskEntity);
         return taskEntity;
     }

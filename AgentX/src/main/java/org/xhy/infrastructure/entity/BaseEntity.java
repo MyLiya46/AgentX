@@ -3,15 +3,15 @@ package org.xhy.infrastructure.entity;
 import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableField;
 
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 
 public class BaseEntity {
 
     @TableField(fill = FieldFill.INSERT)
-    protected LocalDateTime createdAt;
+    protected OffsetDateTime createdAt;
 
     @TableField(fill = FieldFill.INSERT_UPDATE)
-    protected LocalDateTime updatedAt;
+    protected OffsetDateTime updatedAt;
 
     @TableField(exist = false)
     private Operator operatedBy = Operator.USER;
@@ -24,19 +24,19 @@ public class BaseEntity {
         return this.operatedBy == Operator.USER;
     }
 
-    public LocalDateTime getCreatedAt() {
+    public OffsetDateTime getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(LocalDateTime createdAt) {
+    public void setCreatedAt(OffsetDateTime createdAt) {
         this.createdAt = createdAt;
     }
 
-    public LocalDateTime getUpdatedAt() {
+    public OffsetDateTime getUpdatedAt() {
         return updatedAt;
     }
 
-    public void setUpdatedAt(LocalDateTime updatedAt) {
+    public void setUpdatedAt(OffsetDateTime updatedAt) {
         this.updatedAt = updatedAt;
     }
 

@@ -11,6 +11,9 @@ import org.xhy.domain.trace.model.ToolCallInfo;
 import org.xhy.domain.trace.model.TraceContext;
 import org.xhy.domain.trace.service.AgentExecutionTraceDomainService;
 
+import java.time.OffsetDateTime;
+import java.time.ZoneId;
+
 /** 追踪数据收集器 负责在关键执行节点收集追踪数据 */
 @Component
 public class TraceCollector {
@@ -41,7 +44,7 @@ public class TraceCollector {
 
             // 立即记录用户消息，并保存记录ID到上下文中
             Long messageId = traceDomainService.recordUserMessage(traceContext, userMessage, messageType,
-                    java.time.LocalDateTime.now());
+                    OffsetDateTime.now(ZoneId.of("Asia/Shanghai")));
             if (messageId != null) {
                 traceContext.setCurrentUserMessageId(messageId);
             }
@@ -173,7 +176,7 @@ public class TraceCollector {
             String errorMessage = throwable != null ? throwable.getMessage() : "未知错误";
 
             // 记录异常详情到详细记录表
-            traceDomainService.recordErrorMessage(traceContext, errorMessage, java.time.LocalDateTime.now());
+            traceDomainService.recordErrorMessage(traceContext, errorMessage, OffsetDateTime.now(ZoneId.of("Asia/Shanghai")));
 
             logger.debug("记录异常详情: TraceId={}, Phase={}, Message={}", traceContext.getTraceId(),
                     errorPhase != null ? errorPhase.getCode() : "UNKNOWN", errorMessage);

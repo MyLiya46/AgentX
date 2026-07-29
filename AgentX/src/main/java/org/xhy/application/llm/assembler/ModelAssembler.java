@@ -7,7 +7,8 @@ import org.xhy.domain.llm.model.ModelEntity;
 import org.xhy.interfaces.dto.llm.request.ModelCreateRequest;
 import org.xhy.interfaces.dto.llm.request.ModelUpdateRequest;
 
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
+import java.time.ZoneId;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -63,9 +64,9 @@ public class ModelAssembler {
         model.setName(request.getName());
         model.setDescription(request.getDescription());
         model.setType(request.getType());
-        model.setCreatedAt(LocalDateTime.now());
+        model.setCreatedAt(OffsetDateTime.now(ZoneId.of("Asia/Shanghai")));
         model.setModelEndpoint(request.getModelEndpoint());
-        model.setUpdatedAt(LocalDateTime.now());
+        model.setUpdatedAt(OffsetDateTime.now(ZoneId.of("Asia/Shanghai")));
         model.setModelEndpoint(request.getModelEndpoint());
         if (ObjectUtils.isEmpty(request.getModelEndpoint())) {
             model.setModelEndpoint(request.getModelId());
@@ -82,8 +83,8 @@ public class ModelAssembler {
         model.setDescription(request.getDescription());
         model.setModelId(request.getModelId());
         model.setModelEndpoint(request.getModelEndpoint());
-        model.setCreatedAt(LocalDateTime.now());
-        model.setUpdatedAt(LocalDateTime.now());
+        model.setCreatedAt(OffsetDateTime.now(ZoneId.of("Asia/Shanghai")));
+        model.setUpdatedAt(OffsetDateTime.now(ZoneId.of("Asia/Shanghai")));
         model.setId(request.getId());
         model.setModelEndpoint(request.getModelEndpoint());
         if (ObjectUtils.isEmpty(request.getModelEndpoint())) {

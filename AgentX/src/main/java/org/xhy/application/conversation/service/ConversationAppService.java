@@ -58,6 +58,8 @@ import org.xhy.infrastructure.transport.MessageTransport;
 import org.xhy.infrastructure.transport.MessageTransportFactory;
 
 import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -529,8 +531,8 @@ public class ConversationAppService {
         virtualAgent.setKnowledgeBaseIds(previewRequest.getKnowledgeBaseIds()); // 设置知识库IDs用于RAG功能
 
         virtualAgent.setEnabled(true);
-        virtualAgent.setCreatedAt(LocalDateTime.now());
-        virtualAgent.setUpdatedAt(LocalDateTime.now());
+        virtualAgent.setCreatedAt(OffsetDateTime.now(ZoneId.of("Asia/Shanghai")));
+        virtualAgent.setUpdatedAt(OffsetDateTime.now(ZoneId.of("Asia/Shanghai")));
         return virtualAgent;
     }
 

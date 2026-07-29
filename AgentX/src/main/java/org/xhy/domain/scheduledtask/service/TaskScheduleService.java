@@ -84,7 +84,7 @@ public class TaskScheduleService {
         }
 
         // 检查上次执行时间，避免重复执行
-        LocalDateTime lastExecuteTime = task.getLastExecuteTime();
+        LocalDateTime lastExecuteTime = task.getLastExecuteTime() != null ? task.getLastExecuteTime().toLocalDateTime() : null;
         if (lastExecuteTime != null && !checkTime.isAfter(lastExecuteTime.plusMinutes(TIME_TOLERANCE_MINUTES))) {
             return false;
         }

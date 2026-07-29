@@ -17,7 +17,8 @@ import org.xhy.domain.rag.repository.UserRagRepository;
 import org.xhy.domain.rag.service.RagQaDatasetDomainService;
 import org.xhy.infrastructure.exception.BusinessException;
 
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -85,7 +86,7 @@ public class UserRagDomainService {
         userRag.setDescription(ragVersion.getDescription());
         userRag.setIcon(ragVersion.getIcon());
         userRag.setVersion(ragVersion.getVersion());
-        userRag.setInstalledAt(LocalDateTime.now());
+        userRag.setInstalledAt(OffsetDateTime.now(ZoneId.of("Asia/Shanghai")));
 
         userRagRepository.insert(userRag);
 
@@ -124,7 +125,7 @@ public class UserRagDomainService {
         userRag.setDescription(ragDataset.getDescription());
         userRag.setIcon(ragDataset.getIcon());
         userRag.setVersion(ragVersion.getVersion());
-        userRag.setInstalledAt(LocalDateTime.now());
+        userRag.setInstalledAt(OffsetDateTime.now(ZoneId.of("Asia/Shanghai")));
 
         userRagRepository.insert(userRag);
         return userRag;

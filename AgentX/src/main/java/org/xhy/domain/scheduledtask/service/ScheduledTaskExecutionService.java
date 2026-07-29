@@ -8,6 +8,7 @@ import org.xhy.domain.scheduledtask.constant.ScheduleTaskStatus;
 import org.xhy.domain.scheduledtask.model.ScheduledTaskEntity;
 
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.List;
 
 /** 定时任务执行服务 协调整个定时任务执行流程 */
@@ -41,12 +42,12 @@ public class ScheduledTaskExecutionService {
             return;
         }
 
-        LocalDateTime nextExecuteTime = task.getNextExecuteTime();
+        LocalDateTime nextExecuteTime = task.getNextExecuteTime() != null ? task.getNextExecuteTime().toLocalDateTime() : null;
         if (nextExecuteTime == null) {
             // 计算下次执行时间
             nextExecuteTime = taskScheduleService.calculateNextExecuteTime(task, LocalDateTime.now());
             if (nextExecuteTime != null) {
-                task.setNextExecuteTime(nextExecuteTime);
+                task.setNextExecuteTime(nextExecuteTime.atZone(ZoneId.of("Asia/Shanghai")).toOffsetDateTime());
                 scheduledTaskDomainService.updateTask(task);
             }
         }
@@ -158,13 +159,13 @@ public class ScheduledTaskExecutionService {
             LocalDateTime now = LocalDateTime.now();
 
             for (ScheduledTaskEntity task : activeTasks) {
-                LocalDateTime nextExecuteTime = task.getNextExecuteTime();
+                LocalDateTime nextExecuteTime = task.getNextExecuteTime() != null ? task.getNextExecuteTime().toLocalDateTime() : null;
 
                 // 如果没有下次执行时间，计算一个
                 if (nextExecuteTime == null) {
                     nextExecuteTime = taskScheduleService.calculateNextExecuteTime(task, now);
                     if (nextExecuteTime != null) {
-                        task.setNextExecuteTime(nextExecuteTime);
+                        task.setNextExecuteTime(nextExecuteTime.atZone(ZoneId.of("Asia/Shanghai")).toOffsetDateTime());
                         scheduledTaskDomainService.updateTask(task);
                     }
                 }

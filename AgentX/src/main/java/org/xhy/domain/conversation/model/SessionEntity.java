@@ -4,7 +4,8 @@ import com.baomidou.mybatisplus.annotation.*;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
 import org.xhy.infrastructure.entity.SoftDeleteEntity;
 
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
+import java.time.ZoneId;
 
 /** 会话实体类，代表一个独立的对话会话/主题 */
 @TableName("sessions")
@@ -124,7 +125,7 @@ public class SessionEntity extends SoftDeleteEntity {
     /** 恢复已归档会话 */
     public void unarchive() {
         this.isArchived = false;
-        this.updatedAt = LocalDateTime.now();
+        this.updatedAt = OffsetDateTime.now(ZoneId.of("Asia/Shanghai"));
     }
 
 }

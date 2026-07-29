@@ -2,7 +2,7 @@ package org.xhy.application.trace.dto;
 
 import org.xhy.interfaces.dto.Page;
 
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 
 /** Agent执行链路列表查询请求DTO */
 public class AgentTraceListRequest extends Page {
@@ -11,10 +11,10 @@ public class AgentTraceListRequest extends Page {
     private String keyword;
 
     /** 开始时间 */
-    private LocalDateTime startTime;
+    private OffsetDateTime startTime;
 
     /** 结束时间 */
-    private LocalDateTime endTime;
+    private OffsetDateTime endTime;
 
     /** 执行状态筛选：true-有成功执行，false-仅失败，null-全部 */
     private Boolean hasSuccessfulExecution;
@@ -31,19 +31,19 @@ public class AgentTraceListRequest extends Page {
         this.keyword = keyword;
     }
 
-    public LocalDateTime getStartTime() {
+    public OffsetDateTime getStartTime() {
         return startTime;
     }
 
-    public void setStartTime(LocalDateTime startTime) {
+    public void setStartTime(OffsetDateTime startTime) {
         this.startTime = startTime;
     }
 
-    public LocalDateTime getEndTime() {
+    public OffsetDateTime getEndTime() {
         return endTime;
     }
 
-    public void setEndTime(LocalDateTime endTime) {
+    public void setEndTime(OffsetDateTime endTime) {
         this.endTime = endTime;
     }
 

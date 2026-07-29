@@ -14,7 +14,8 @@ import org.xhy.domain.token.service.TokenOverflowStrategy;
 import org.xhy.infrastructure.llm.LLMProviderService;
 import org.xhy.infrastructure.llm.config.ProviderConfig;
 
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
+import java.time.ZoneId;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -144,12 +145,12 @@ public class SummarizeTokenOverflowStrategy implements TokenOverflowStrategy {
         newSummaryMessage.setTokenCount(newSummaryBodyTokenCount);
 
         // 找到历史消息中的最早时间
-        LocalDateTime earliestTime = historyMessages.stream()
+        OffsetDateTime earliestTime = historyMessages.stream()
                 .filter(message -> !message.getRole().equals(Role.SUMMARY.name())).map(TokenMessage::getCreatedAt)
-                .min(LocalDateTime::compareTo).orElse(LocalDateTime.now());
+                .min(OffsetDateTime::compareTo).orElse(OffsetDateTime.now(ZoneId.of("Asia/Shanghai")));
 
         // 设置创建时间和更新时间为最早时间的前一秒
-        LocalDateTime summaryTime = earliestTime.minusSeconds(1);
+        OffsetDateTime summaryTime = earliestTime.minusSeconds(1);
         newSummaryMessage.setCreatedAt(summaryTime);
         return newSummaryMessage;
     }

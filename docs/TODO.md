@@ -62,6 +62,13 @@
   - 修复方向: `autoStartPreprocessing` 应根据文件扩展名判断是否需要 OCR 模型，txt/md/csv 等纯文本格式应跳过 OCR 配置获取
   - 临时绕过: 在用户设置中配置 `defaultOcrModel`（复用 chat 模型 ID 即可）
 
+- [ ] **记忆系统可靠性：手动创建记忆后查询为空 + Agent无法使用记忆** 🔴
+  - 详见 Spec: [memory-system-reliability-and-data-consistency-2026-07-29](docs/specs/memory-system-reliability-and-data-consistency-2026-07-29.md)
+
+- [ ] **记忆列表查询 500 错误：PostgreSQL TIMESTAMPTZ 无法映射到 LocalDateTime** 🔴
+  - 方案: `BaseEntity` 全栈改用 `OffsetDateTime` + 数据库统一 `TIMESTAMPTZ`（JDBC 标准映射，无防御代码）
+  - 详见 Spec: [timestamp-type-mismatch-fix-2026-07-29](docs/specs/timestamp-type-mismatch-fix-2026-07-29.md) | Plan: [fix-timestamp-type-mismatch-2026-07-29](docs/plans/fix-timestamp-type-mismatch-2026-07-29.md)
+
 ## 阶段1：基础对话功能
 - [x] 项目初始化
   - [x] 创建项目结构

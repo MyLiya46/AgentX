@@ -1,6 +1,6 @@
 package org.xhy.application.rag.dto;
 
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.util.List;
 
 /** RAG市场DTO（用于市场展示）
@@ -52,10 +52,10 @@ public class RagMarketDTO {
     private Long installCount;
 
     /** 发布时间 */
-    private LocalDateTime publishedAt;
+    private OffsetDateTime publishedAt;
 
     /** 更新时间 */
-    private LocalDateTime updatedAt;
+    private OffsetDateTime updatedAt;
 
     /** 是否已安装（当前用户） */
     private Boolean isInstalled;
@@ -178,19 +178,19 @@ public class RagMarketDTO {
         this.installCount = installCount;
     }
 
-    public LocalDateTime getPublishedAt() {
+    public OffsetDateTime getPublishedAt() {
         return publishedAt;
     }
 
-    public void setPublishedAt(LocalDateTime publishedAt) {
+    public void setPublishedAt(OffsetDateTime publishedAt) {
         this.publishedAt = publishedAt;
     }
 
-    public LocalDateTime getUpdatedAt() {
+    public OffsetDateTime getUpdatedAt() {
         return updatedAt;
     }
 
-    public void setUpdatedAt(LocalDateTime updatedAt) {
+    public void setUpdatedAt(OffsetDateTime updatedAt) {
         this.updatedAt = updatedAt;
     }
 

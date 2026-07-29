@@ -10,13 +10,16 @@ import org.springframework.context.annotation.Configuration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
+import java.time.ZoneId;
 
 /** MyBatis-Plus配置类 用于配置MyBatis-Plus的自动填充、分页等功能 */
 @Configuration
 public class MybatisPlusConfig implements MetaObjectHandler {
 
     private static final Logger logger = LoggerFactory.getLogger(MybatisPlusConfig.class);
+
+    private static final ZoneId ZONE_ID = ZoneId.of("Asia/Shanghai");
 
     /** 添加分页插件 */
     @Bean
@@ -32,9 +35,9 @@ public class MybatisPlusConfig implements MetaObjectHandler {
     public void insertFill(MetaObject metaObject) {
 
         // 填充创建时间和更新时间
-        LocalDateTime now = LocalDateTime.now();
-        this.strictInsertFill(metaObject, "createdAt", LocalDateTime.class, now);
-        this.strictInsertFill(metaObject, "updatedAt", LocalDateTime.class, now);
+        OffsetDateTime now = OffsetDateTime.now(ZONE_ID);
+        this.strictInsertFill(metaObject, "createdAt", OffsetDateTime.class, now);
+        this.strictInsertFill(metaObject, "updatedAt", OffsetDateTime.class, now);
     }
 
     /** 更新操作自动填充 */
@@ -42,7 +45,7 @@ public class MybatisPlusConfig implements MetaObjectHandler {
     public void updateFill(MetaObject metaObject) {
 
         // 填充更新时间
-        LocalDateTime now = LocalDateTime.now();
-        this.strictUpdateFill(metaObject, "updatedAt", LocalDateTime.class, now);
+        OffsetDateTime now = OffsetDateTime.now(ZONE_ID);
+        this.strictUpdateFill(metaObject, "updatedAt", OffsetDateTime.class, now);
     }
 }

@@ -3,7 +3,7 @@ package org.xhy.application.container.dto;
 import org.xhy.domain.container.constant.ContainerStatus;
 import org.xhy.domain.container.constant.ContainerType;
 
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 
 /** 容器DTO */
 public class ContainerDTO {
@@ -22,9 +22,9 @@ public class ContainerDTO {
     private Double memoryUsage;
     private String volumePath;
     private String errorMessage;
-    private LocalDateTime lastAccessedAt;
-    private LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
+    private OffsetDateTime lastAccessedAt;
+    private OffsetDateTime createdAt;
+    private OffsetDateTime updatedAt;
 
     public String getId() {
         return id;
@@ -146,27 +146,27 @@ public class ContainerDTO {
         this.errorMessage = errorMessage;
     }
 
-    public LocalDateTime getLastAccessedAt() {
+    public OffsetDateTime getLastAccessedAt() {
         return lastAccessedAt;
     }
 
-    public void setLastAccessedAt(LocalDateTime lastAccessedAt) {
+    public void setLastAccessedAt(OffsetDateTime lastAccessedAt) {
         this.lastAccessedAt = lastAccessedAt;
     }
 
-    public LocalDateTime getCreatedAt() {
+    public OffsetDateTime getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(LocalDateTime createdAt) {
+    public void setCreatedAt(OffsetDateTime createdAt) {
         this.createdAt = createdAt;
     }
 
-    public LocalDateTime getUpdatedAt() {
+    public OffsetDateTime getUpdatedAt() {
         return updatedAt;
     }
 
-    public void setUpdatedAt(LocalDateTime updatedAt) {
+    public void setUpdatedAt(OffsetDateTime updatedAt) {
         this.updatedAt = updatedAt;
     }
 }

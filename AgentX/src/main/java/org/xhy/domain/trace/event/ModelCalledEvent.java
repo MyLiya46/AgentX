@@ -4,7 +4,8 @@ import org.springframework.context.ApplicationEvent;
 import org.xhy.domain.trace.model.ModelCallInfo;
 import org.xhy.domain.trace.model.TraceContext;
 
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
+import java.time.ZoneId;
 
 /** 模型调用事件 */
 public class ModelCalledEvent extends ApplicationEvent {
@@ -12,18 +13,18 @@ public class ModelCalledEvent extends ApplicationEvent {
     private final TraceContext traceContext;
     private final String aiResponse;
     private final ModelCallInfo modelCallInfo;
-    private final LocalDateTime aiResponseStartTime;
+    private final OffsetDateTime aiResponseStartTime;
 
     public ModelCalledEvent(Object source, TraceContext traceContext, String aiResponse, ModelCallInfo modelCallInfo) {
         super(source);
         this.traceContext = traceContext;
         this.aiResponse = aiResponse;
         this.modelCallInfo = modelCallInfo;
-        this.aiResponseStartTime = LocalDateTime.now(); // 默认使用当前时间
+        this.aiResponseStartTime = OffsetDateTime.now(ZoneId.of("Asia/Shanghai")); // 默认使用当前时间
     }
 
     public ModelCalledEvent(Object source, TraceContext traceContext, String aiResponse, ModelCallInfo modelCallInfo,
-            LocalDateTime aiResponseStartTime) {
+            OffsetDateTime aiResponseStartTime) {
         super(source);
         this.traceContext = traceContext;
         this.aiResponse = aiResponse;
@@ -43,7 +44,7 @@ public class ModelCalledEvent extends ApplicationEvent {
         return modelCallInfo;
     }
 
-    public LocalDateTime getAiResponseStartTime() {
+    public OffsetDateTime getAiResponseStartTime() {
         return aiResponseStartTime;
     }
 }

@@ -4,7 +4,7 @@ import org.xhy.domain.scheduledtask.constant.RepeatType;
 import org.xhy.domain.scheduledtask.constant.ScheduleTaskStatus;
 import org.xhy.domain.scheduledtask.model.RepeatConfig;
 
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 
 /** 定时任务DTO */
 public class ScheduledTaskDTO {
@@ -34,16 +34,16 @@ public class ScheduledTaskDTO {
     private ScheduleTaskStatus status;
 
     /** 上次执行时间 */
-    private LocalDateTime lastExecuteTime;
+    private OffsetDateTime lastExecuteTime;
 
     /** 下次执行时间 */
-    private LocalDateTime nextExecuteTime;
+    private OffsetDateTime nextExecuteTime;
 
     /** 创建时间 */
-    private LocalDateTime createdAt;
+    private OffsetDateTime createdAt;
 
     /** 更新时间 */
-    private LocalDateTime updatedAt;
+    private OffsetDateTime updatedAt;
 
     // Getters and Setters
     public String getId() {
@@ -110,35 +110,35 @@ public class ScheduledTaskDTO {
         this.status = status;
     }
 
-    public LocalDateTime getLastExecuteTime() {
+    public OffsetDateTime getLastExecuteTime() {
         return lastExecuteTime;
     }
 
-    public void setLastExecuteTime(LocalDateTime lastExecuteTime) {
+    public void setLastExecuteTime(OffsetDateTime lastExecuteTime) {
         this.lastExecuteTime = lastExecuteTime;
     }
 
-    public LocalDateTime getNextExecuteTime() {
+    public OffsetDateTime getNextExecuteTime() {
         return nextExecuteTime;
     }
 
-    public void setNextExecuteTime(LocalDateTime nextExecuteTime) {
+    public void setNextExecuteTime(OffsetDateTime nextExecuteTime) {
         this.nextExecuteTime = nextExecuteTime;
     }
 
-    public LocalDateTime getCreatedAt() {
+    public OffsetDateTime getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(LocalDateTime createdAt) {
+    public void setCreatedAt(OffsetDateTime createdAt) {
         this.createdAt = createdAt;
     }
 
-    public LocalDateTime getUpdatedAt() {
+    public OffsetDateTime getUpdatedAt() {
         return updatedAt;
     }
 
-    public void setUpdatedAt(LocalDateTime updatedAt) {
+    public void setUpdatedAt(OffsetDateTime updatedAt) {
         this.updatedAt = updatedAt;
     }
 }

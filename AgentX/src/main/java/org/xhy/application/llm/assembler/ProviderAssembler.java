@@ -8,7 +8,8 @@ import org.xhy.domain.llm.model.ProviderEntity;
 import org.xhy.interfaces.dto.llm.request.ProviderCreateRequest;
 import org.xhy.interfaces.dto.llm.request.ProviderUpdateRequest;
 
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
+import java.time.ZoneId;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -57,8 +58,8 @@ public class ProviderAssembler {
         provider.setDescription(request.getDescription());
         provider.setConfig(request.getConfig()); // 会自动加密
         provider.setStatus(request.getStatus());
-        provider.setCreatedAt(LocalDateTime.now());
-        provider.setUpdatedAt(LocalDateTime.now());
+        provider.setCreatedAt(OffsetDateTime.now(ZoneId.of("Asia/Shanghai")));
+        provider.setUpdatedAt(OffsetDateTime.now(ZoneId.of("Asia/Shanghai")));
 
         return provider;
     }
@@ -72,7 +73,7 @@ public class ProviderAssembler {
         provider.setDescription(request.getDescription());
         provider.setConfig(request.getConfig()); // 会自动加密
         provider.setStatus(request.getStatus());
-        provider.setUpdatedAt(LocalDateTime.now());
+        provider.setUpdatedAt(OffsetDateTime.now(ZoneId.of("Asia/Shanghai")));
         return provider;
     }
 
@@ -98,7 +99,7 @@ public class ProviderAssembler {
             entity.setStatus(request.getStatus());
         }
 
-        entity.setUpdatedAt(LocalDateTime.now());
+        entity.setUpdatedAt(OffsetDateTime.now(ZoneId.of("Asia/Shanghai")));
     }
 
     // 将聚合根转换为dto

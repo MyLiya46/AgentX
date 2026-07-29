@@ -10,7 +10,8 @@ import org.xhy.infrastructure.converter.MapConverter;
 import org.xhy.infrastructure.entity.SoftDeleteEntity;
 import org.xhy.infrastructure.exception.BusinessException;
 
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -174,8 +175,8 @@ public class AgentEntity extends SoftDeleteEntity {
         agent.setAvatar(avatar);
         agent.setUserId(userId);
         agent.setEnabled(true); // 默认启用
-        agent.setCreatedAt(LocalDateTime.now());
-        agent.setUpdatedAt(LocalDateTime.now());
+        agent.setCreatedAt(OffsetDateTime.now(ZoneId.of("Asia/Shanghai")));
+        agent.setUpdatedAt(OffsetDateTime.now(ZoneId.of("Asia/Shanghai")));
         return agent;
     }
 
@@ -184,30 +185,30 @@ public class AgentEntity extends SoftDeleteEntity {
         this.name = name;
         this.avatar = avatar;
         this.description = description;
-        this.updatedAt = LocalDateTime.now();
+        this.updatedAt = OffsetDateTime.now(ZoneId.of("Asia/Shanghai"));
     }
 
     /** 启用Agent */
     public void enable() {
         this.enabled = true;
-        this.updatedAt = LocalDateTime.now();
+        this.updatedAt = OffsetDateTime.now(ZoneId.of("Asia/Shanghai"));
     }
 
     /** 禁用Agent */
     public void disable() {
         this.enabled = false;
-        this.updatedAt = LocalDateTime.now();
+        this.updatedAt = OffsetDateTime.now(ZoneId.of("Asia/Shanghai"));
     }
 
     /** 发布新版本 */
     public void publishVersion(String versionId) {
         this.publishedVersion = versionId;
-        this.updatedAt = LocalDateTime.now();
+        this.updatedAt = OffsetDateTime.now(ZoneId.of("Asia/Shanghai"));
     }
 
     /** 软删除 */
     public void delete() {
-        this.deletedAt = LocalDateTime.now();
+        this.deletedAt = OffsetDateTime.now(ZoneId.of("Asia/Shanghai"));
     }
 
     public void isEnable() {

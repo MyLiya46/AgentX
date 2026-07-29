@@ -9,6 +9,8 @@ import org.xhy.domain.scheduledtask.event.ScheduledTaskExecuteEvent;
 import org.xhy.domain.scheduledtask.model.ScheduledTaskEntity;
 
 import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
+import java.time.ZoneId;
 
 /** 定时任务执行器 负责实际执行定时任务，通过事件发布与Application层解耦 */
 @Service
@@ -62,14 +64,14 @@ public class ScheduleTaskExecutor {
 
             // 记录执行时间
             task.recordExecution();
-            scheduledTaskDomainService.recordExecution(task.getId(), now);
+            scheduledTaskDomainService.recordExecution(task.getId(), OffsetDateTime.now(ZoneId.of("Asia/Shanghai")));
 
             // 计算并处理下次执行时间
             LocalDateTime nextExecuteTime = taskScheduleService.calculateNextExecuteTime(task, now);
 
             if (nextExecuteTime != null) {
                 // 更新下次执行时间
-                task.setNextExecuteTime(nextExecuteTime);
+                task.setNextExecuteTime(nextExecuteTime.atZone(ZoneId.of("Asia/Shanghai")).toOffsetDateTime());
                 scheduledTaskDomainService.updateTask(task);
                 logger.info("任务下次执行时间已更新: taskId={}, nextTime={}", task.getId(), nextExecuteTime);
             } else {

@@ -10,7 +10,8 @@ import org.xhy.infrastructure.converter.ListConverter;
 import org.xhy.infrastructure.converter.MapConverter;
 import org.xhy.infrastructure.entity.SoftDeleteEntity;
 
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -73,11 +74,11 @@ public class AgentVersionEntity extends SoftDeleteEntity {
 
     /** 审核时间 */
     @TableField("review_time")
-    private LocalDateTime reviewTime;
+    private OffsetDateTime reviewTime;
 
     /** 发布时间 */
     @TableField("published_at")
-    private LocalDateTime publishedAt;
+    private OffsetDateTime publishedAt;
 
     /** 创建者用户ID */
     @TableField("user_id")
@@ -178,19 +179,19 @@ public class AgentVersionEntity extends SoftDeleteEntity {
         this.rejectReason = rejectReason;
     }
 
-    public LocalDateTime getReviewTime() {
+    public OffsetDateTime getReviewTime() {
         return reviewTime;
     }
 
-    public void setReviewTime(LocalDateTime reviewTime) {
+    public void setReviewTime(OffsetDateTime reviewTime) {
         this.reviewTime = reviewTime;
     }
 
-    public LocalDateTime getPublishedAt() {
+    public OffsetDateTime getPublishedAt() {
         return publishedAt;
     }
 
-    public void setPublishedAt(LocalDateTime publishedAt) {
+    public void setPublishedAt(OffsetDateTime publishedAt) {
         this.publishedAt = publishedAt;
     }
 
@@ -233,14 +234,14 @@ public class AgentVersionEntity extends SoftDeleteEntity {
     /** 更新发布状态 */
     public void updatePublishStatus(PublishStatus status) {
         this.publishStatus = status.getCode();
-        this.reviewTime = LocalDateTime.now();
+        this.reviewTime = OffsetDateTime.now(ZoneId.of("Asia/Shanghai"));
     }
 
     /** 拒绝发布 */
     public void reject(String reason) {
         this.publishStatus = PublishStatus.REJECTED.getCode();
         this.rejectReason = reason;
-        this.reviewTime = LocalDateTime.now();
+        this.reviewTime = OffsetDateTime.now(ZoneId.of("Asia/Shanghai"));
     }
 
     /** 从Agent实体创建一个新的版本实体 */
@@ -259,7 +260,7 @@ public class AgentVersionEntity extends SoftDeleteEntity {
         version.setUserId(agent.getUserId());
 
         // 创建时间和发布时间应该相同
-        LocalDateTime now = LocalDateTime.now();
+        OffsetDateTime now = OffsetDateTime.now(ZoneId.of("Asia/Shanghai"));
         version.setCreatedAt(now);
         version.setUpdatedAt(now);
         version.setPublishedAt(now);

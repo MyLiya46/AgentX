@@ -1,6 +1,6 @@
 package org.xhy.application.rule.dto;
 
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 
 /** 规则DTO */
 public class RuleDTO {
@@ -18,10 +18,10 @@ public class RuleDTO {
     private String description;
 
     /** 创建时间 */
-    private LocalDateTime createdAt;
+    private OffsetDateTime createdAt;
 
     /** 更新时间 */
-    private LocalDateTime updatedAt;
+    private OffsetDateTime updatedAt;
 
     public RuleDTO() {
     }
@@ -58,19 +58,19 @@ public class RuleDTO {
         this.description = description;
     }
 
-    public LocalDateTime getCreatedAt() {
+    public OffsetDateTime getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(LocalDateTime createdAt) {
+    public void setCreatedAt(OffsetDateTime createdAt) {
         this.createdAt = createdAt;
     }
 
-    public LocalDateTime getUpdatedAt() {
+    public OffsetDateTime getUpdatedAt() {
         return updatedAt;
     }
 
-    public void setUpdatedAt(LocalDateTime updatedAt) {
+    public void setUpdatedAt(OffsetDateTime updatedAt) {
         this.updatedAt = updatedAt;
     }
 }

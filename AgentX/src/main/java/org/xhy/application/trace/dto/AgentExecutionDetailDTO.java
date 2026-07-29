@@ -1,6 +1,6 @@
 package org.xhy.application.trace.dto;
 
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 
 /** Agent执行链路详细记录DTO */
 public class AgentExecutionDetailDTO {
@@ -66,7 +66,7 @@ public class AgentExecutionDetailDTO {
     private String stepErrorMessage;
 
     /** 创建时间 */
-    private LocalDateTime createdTime;
+    private OffsetDateTime createdTime;
 
     public AgentExecutionDetailDTO() {
     }
@@ -232,11 +232,11 @@ public class AgentExecutionDetailDTO {
         this.stepErrorMessage = stepErrorMessage;
     }
 
-    public LocalDateTime getCreatedTime() {
+    public OffsetDateTime getCreatedTime() {
         return createdTime;
     }
 
-    public void setCreatedTime(LocalDateTime createdTime) {
+    public void setCreatedTime(OffsetDateTime createdTime) {
         this.createdTime = createdTime;
     }
 }

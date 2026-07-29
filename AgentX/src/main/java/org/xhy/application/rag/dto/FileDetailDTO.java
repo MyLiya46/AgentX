@@ -1,6 +1,6 @@
 package org.xhy.application.rag.dto;
 
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 
 /** 文件详情数据传输对象
  * @author shilong.zang
@@ -50,10 +50,10 @@ public class FileDetailDTO {
     private String userId;
 
     /** 创建时间 */
-    private LocalDateTime createdAt;
+    private OffsetDateTime createdAt;
 
     /** 更新时间 */
-    private LocalDateTime updatedAt;
+    private OffsetDateTime updatedAt;
 
     public String getId() {
         return id;
@@ -167,19 +167,19 @@ public class FileDetailDTO {
         this.userId = userId;
     }
 
-    public LocalDateTime getCreatedAt() {
+    public OffsetDateTime getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(LocalDateTime createdAt) {
+    public void setCreatedAt(OffsetDateTime createdAt) {
         this.createdAt = createdAt;
     }
 
-    public LocalDateTime getUpdatedAt() {
+    public OffsetDateTime getUpdatedAt() {
         return updatedAt;
     }
 
-    public void setUpdatedAt(LocalDateTime updatedAt) {
+    public void setUpdatedAt(OffsetDateTime updatedAt) {
         this.updatedAt = updatedAt;
     }
 }

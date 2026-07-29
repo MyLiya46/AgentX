@@ -8,7 +8,8 @@ import org.xhy.infrastructure.converter.RepeatTypeConverter;
 import org.xhy.infrastructure.converter.ScheduledTaskStatusConverter;
 import org.xhy.infrastructure.entity.SoftDeleteEntity;
 
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
+import java.time.ZoneId;
 import java.util.Objects;
 
 /** 定时任务实体类 代表一个用户创建的定时任务 */
@@ -49,11 +50,11 @@ public class ScheduledTaskEntity extends SoftDeleteEntity {
 
     /** 上次执行时间 */
     @TableField("last_execute_time")
-    private LocalDateTime lastExecuteTime;
+    private OffsetDateTime lastExecuteTime;
 
     /** 下次执行时间 */
     @TableField("next_execute_time")
-    private LocalDateTime nextExecuteTime;
+    private OffsetDateTime nextExecuteTime;
 
     /** 无参构造函数 */
     public ScheduledTaskEntity() {
@@ -124,19 +125,19 @@ public class ScheduledTaskEntity extends SoftDeleteEntity {
         this.status = status;
     }
 
-    public LocalDateTime getLastExecuteTime() {
+    public OffsetDateTime getLastExecuteTime() {
         return lastExecuteTime;
     }
 
-    public void setLastExecuteTime(LocalDateTime lastExecuteTime) {
+    public void setLastExecuteTime(OffsetDateTime lastExecuteTime) {
         this.lastExecuteTime = lastExecuteTime;
     }
 
-    public LocalDateTime getNextExecuteTime() {
+    public OffsetDateTime getNextExecuteTime() {
         return nextExecuteTime;
     }
 
-    public void setNextExecuteTime(LocalDateTime nextExecuteTime) {
+    public void setNextExecuteTime(OffsetDateTime nextExecuteTime) {
         this.nextExecuteTime = nextExecuteTime;
     }
 
@@ -182,7 +183,7 @@ public class ScheduledTaskEntity extends SoftDeleteEntity {
 
     /** 记录执行时间 */
     public void recordExecution() {
-        this.lastExecuteTime = LocalDateTime.now();
+        this.lastExecuteTime = OffsetDateTime.now(ZoneId.of("Asia/Shanghai"));
     }
 
     /** 检查任务是否活跃 */

@@ -2,7 +2,7 @@ package org.xhy.application.trace.dto;
 
 import org.xhy.interfaces.dto.Page;
 
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 
 /** 查询执行历史请求DTO */
 public class QueryExecutionHistoryRequest extends Page {
@@ -14,10 +14,10 @@ public class QueryExecutionHistoryRequest extends Page {
     private String agentId;
 
     /** 开始时间 */
-    private LocalDateTime startTime;
+    private OffsetDateTime startTime;
 
     /** 结束时间 */
-    private LocalDateTime endTime;
+    private OffsetDateTime endTime;
 
     /** 执行状态：true-成功，false-失败，null-全部 */
     private Boolean executionSuccess;
@@ -45,19 +45,19 @@ public class QueryExecutionHistoryRequest extends Page {
         this.agentId = agentId;
     }
 
-    public LocalDateTime getStartTime() {
+    public OffsetDateTime getStartTime() {
         return startTime;
     }
 
-    public void setStartTime(LocalDateTime startTime) {
+    public void setStartTime(OffsetDateTime startTime) {
         this.startTime = startTime;
     }
 
-    public LocalDateTime getEndTime() {
+    public OffsetDateTime getEndTime() {
         return endTime;
     }
 
-    public void setEndTime(LocalDateTime endTime) {
+    public void setEndTime(OffsetDateTime endTime) {
         this.endTime = endTime;
     }
 

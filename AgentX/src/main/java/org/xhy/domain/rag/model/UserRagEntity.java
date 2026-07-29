@@ -6,7 +6,7 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.annotation.TableField;
 import java.io.Serial;
 import java.io.Serializable;
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import org.xhy.domain.rag.constant.InstallType;
 import org.xhy.infrastructure.converter.InstallTypeConverter;
 import org.xhy.infrastructure.entity.SoftDeleteEntity;
@@ -44,7 +44,7 @@ public class UserRagEntity extends SoftDeleteEntity implements Serializable {
     private String version;
 
     /** 安装时间 */
-    private LocalDateTime installedAt;
+    private OffsetDateTime installedAt;
 
     /** 原始RAG数据集ID */
     private String originalRagId;
@@ -109,11 +109,11 @@ public class UserRagEntity extends SoftDeleteEntity implements Serializable {
         this.version = version;
     }
 
-    public LocalDateTime getInstalledAt() {
+    public OffsetDateTime getInstalledAt() {
         return installedAt;
     }
 
-    public void setInstalledAt(LocalDateTime installedAt) {
+    public void setInstalledAt(OffsetDateTime installedAt) {
         this.installedAt = installedAt;
     }
 

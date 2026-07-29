@@ -13,7 +13,7 @@ import org.xhy.domain.trace.repository.AgentExecutionSummaryRepository;
 import org.xhy.infrastructure.exception.BusinessException;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.util.List;
 
 /** Agent执行链路追踪领域服务 负责处理追踪数据的核心业务逻辑 */
@@ -62,7 +62,7 @@ public class AgentExecutionTraceDomainService {
      * @param eventTime 事件发生时间
      * @return 插入记录的ID */
     public Long recordUserMessage(TraceContext traceContext, String userMessage, String messageType,
-            LocalDateTime eventTime) {
+            OffsetDateTime eventTime) {
         if (!traceContext.isTraceEnabled()) {
             return null;
         }
@@ -82,7 +82,7 @@ public class AgentExecutionTraceDomainService {
      * @param messageTokens 消息Token数
      * @param eventTime 事件发生时间 */
     public void recordUserMessageWithTokens(TraceContext traceContext, String userMessage, String messageType,
-            Integer messageTokens, LocalDateTime eventTime) {
+            Integer messageTokens, OffsetDateTime eventTime) {
         if (!traceContext.isTraceEnabled()) {
             return;
         }
@@ -101,7 +101,7 @@ public class AgentExecutionTraceDomainService {
      * @param modelCallInfo 模型调用信息
      * @param eventTime 事件发生时间（AI开始响应的时间） */
     public void recordAiResponse(TraceContext traceContext, String aiResponse, ModelCallInfo modelCallInfo,
-            LocalDateTime eventTime) {
+            OffsetDateTime eventTime) {
         if (!traceContext.isTraceEnabled()) {
             return;
         }
@@ -135,7 +135,7 @@ public class AgentExecutionTraceDomainService {
      * @param traceContext 追踪上下文
      * @param toolCallInfo 工具调用信息
      * @param eventTime 事件发生时间（工具开始执行的时间） */
-    public void recordToolCall(TraceContext traceContext, ToolCallInfo toolCallInfo, LocalDateTime eventTime) {
+    public void recordToolCall(TraceContext traceContext, ToolCallInfo toolCallInfo, OffsetDateTime eventTime) {
         if (!traceContext.isTraceEnabled()) {
             return;
         }
@@ -250,8 +250,8 @@ public class AgentExecutionTraceDomainService {
      * @param startTime 开始时间
      * @param endTime 结束时间
      * @return 执行记录列表 */
-    public List<AgentExecutionSummaryEntity> getUserExecutionsByTimeRange(String userId, LocalDateTime startTime,
-            LocalDateTime endTime) {
+    public List<AgentExecutionSummaryEntity> getUserExecutionsByTimeRange(String userId, OffsetDateTime startTime,
+            OffsetDateTime endTime) {
         LambdaQueryWrapper<AgentExecutionSummaryEntity> wrapper = Wrappers.<AgentExecutionSummaryEntity>lambdaQuery()
                 .eq(AgentExecutionSummaryEntity::getUserId, userId)
                 .ge(startTime != null, AgentExecutionSummaryEntity::getExecutionStartTime, startTime)
@@ -379,8 +379,8 @@ public class AgentExecutionTraceDomainService {
                             .distinct().count();
 
                     // 最后执行时间和状态
-                    LocalDateTime lastExecutionTime = agentExecutions.stream()
-                            .map(AgentExecutionSummaryEntity::getExecutionStartTime).max(LocalDateTime::compareTo)
+                    OffsetDateTime lastExecutionTime = agentExecutions.stream()
+                            .map(AgentExecutionSummaryEntity::getExecutionStartTime).max(OffsetDateTime::compareTo)
                             .orElse(null);
 
                     Boolean lastExecutionSuccess = agentExecutions.stream()
@@ -437,8 +437,8 @@ public class AgentExecutionTraceDomainService {
                             .mapToInt(e -> e.getTotalExecutionTime() != null ? e.getTotalExecutionTime() : 0).sum();
 
                     // 最后执行时间和状态
-                    LocalDateTime lastExecutionTime = sessionExecutions.stream()
-                            .map(AgentExecutionSummaryEntity::getExecutionStartTime).max(LocalDateTime::compareTo)
+                    OffsetDateTime lastExecutionTime = sessionExecutions.stream()
+                            .map(AgentExecutionSummaryEntity::getExecutionStartTime).max(OffsetDateTime::compareTo)
                             .orElse(null);
 
                     Boolean lastExecutionSuccess = sessionExecutions.stream()
@@ -537,12 +537,12 @@ public class AgentExecutionTraceDomainService {
         private final int totalOutputTokens;
         private final int totalToolCalls;
         private final int totalSessions;
-        private final LocalDateTime lastExecutionTime;
+        private final OffsetDateTime lastExecutionTime;
         private final Boolean lastExecutionSuccess;
 
         public AgentStatistics(String agentId, int totalExecutions, int successfulExecutions, int failedExecutions,
                 double successRate, int totalTokens, int totalInputTokens, int totalOutputTokens, int totalToolCalls,
-                int totalSessions, LocalDateTime lastExecutionTime, Boolean lastExecutionSuccess) {
+                int totalSessions, OffsetDateTime lastExecutionTime, Boolean lastExecutionSuccess) {
             this.agentId = agentId;
             this.totalExecutions = totalExecutions;
             this.successfulExecutions = successfulExecutions;
@@ -588,7 +588,7 @@ public class AgentExecutionTraceDomainService {
         public int getTotalSessions() {
             return totalSessions;
         }
-        public LocalDateTime getLastExecutionTime() {
+        public OffsetDateTime getLastExecutionTime() {
             return lastExecutionTime;
         }
         public Boolean getLastExecutionSuccess() {
@@ -601,7 +601,7 @@ public class AgentExecutionTraceDomainService {
      * @param traceContext 追踪上下文
      * @param errorMessage 错误信息
      * @param eventTime 事件发生时间 */
-    public void recordErrorMessage(TraceContext traceContext, String errorMessage, LocalDateTime eventTime) {
+    public void recordErrorMessage(TraceContext traceContext, String errorMessage, OffsetDateTime eventTime) {
         if (!traceContext.isTraceEnabled()) {
             return;
         }
@@ -632,12 +632,12 @@ public class AgentExecutionTraceDomainService {
         private final int totalOutputTokens;
         private final int totalToolCalls;
         private final int totalExecutionTime;
-        private final LocalDateTime lastExecutionTime;
+        private final OffsetDateTime lastExecutionTime;
         private final Boolean lastExecutionSuccess;
 
         public SessionStatistics(String sessionId, String agentId, int totalExecutions, int successfulExecutions,
                 int failedExecutions, double successRate, int totalTokens, int totalInputTokens, int totalOutputTokens,
-                int totalToolCalls, int totalExecutionTime, LocalDateTime lastExecutionTime,
+                int totalToolCalls, int totalExecutionTime, OffsetDateTime lastExecutionTime,
                 Boolean lastExecutionSuccess) {
             this.sessionId = sessionId;
             this.agentId = agentId;
@@ -688,7 +688,7 @@ public class AgentExecutionTraceDomainService {
         public int getTotalExecutionTime() {
             return totalExecutionTime;
         }
-        public LocalDateTime getLastExecutionTime() {
+        public OffsetDateTime getLastExecutionTime() {
             return lastExecutionTime;
         }
         public Boolean getLastExecutionSuccess() {

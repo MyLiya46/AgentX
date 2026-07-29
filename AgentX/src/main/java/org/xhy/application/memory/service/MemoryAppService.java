@@ -44,4 +44,14 @@ public class MemoryAppService {
     public boolean deleteMemory(String userId, String itemId) {
         return memoryDomainService.delete(userId, itemId);
     }
+
+    /** 检测指定用户的孤儿向量记录 */
+    public List<String> findOrphanVectors(String userId) {
+        return memoryDomainService.findOrphanVectors(userId);
+    }
+
+    /** 清理指定用户的孤儿向量记录 */
+    public int cleanOrphanVectors(String userId) {
+        return memoryDomainService.cleanOrphanVectors(userId);
+    }
 }

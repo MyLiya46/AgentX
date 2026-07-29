@@ -8,7 +8,7 @@ import org.xhy.infrastructure.converter.MessageTypeConverter;
 import org.xhy.infrastructure.converter.RoleConverter;
 import org.xhy.infrastructure.entity.SoftDeleteEntity;
 
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,7 +38,7 @@ public class MessageEntity extends SoftDeleteEntity {
 
     /** 创建时间 */
     @TableField(value = "created_at")
-    private LocalDateTime createdAt;
+    private OffsetDateTime createdAt;
 
     /** Token数量 */
     @TableField("token_count")
@@ -108,11 +108,11 @@ public class MessageEntity extends SoftDeleteEntity {
         this.messageType = messageType;
     }
 
-    public LocalDateTime getCreatedAt() {
+    public OffsetDateTime getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(LocalDateTime createdAt) {
+    public void setCreatedAt(OffsetDateTime createdAt) {
         this.createdAt = createdAt;
     }
 

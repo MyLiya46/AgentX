@@ -1,6 +1,6 @@
 package org.xhy.application.rag.dto;
 
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 
 /** RAG版本文档DTO
  * @author xhy
@@ -21,7 +21,7 @@ public class RagVersionDocumentDTO {
     private String fileName;
 
     /** 创建时间 */
-    private LocalDateTime createdAt;
+    private OffsetDateTime createdAt;
 
     public String getId() {
         return id;
@@ -55,11 +55,11 @@ public class RagVersionDocumentDTO {
         this.fileName = fileName;
     }
 
-    public LocalDateTime getCreatedAt() {
+    public OffsetDateTime getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(LocalDateTime createdAt) {
+    public void setCreatedAt(OffsetDateTime createdAt) {
         this.createdAt = createdAt;
     }
 }

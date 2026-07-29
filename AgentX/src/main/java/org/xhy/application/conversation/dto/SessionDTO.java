@@ -1,6 +1,6 @@
 package org.xhy.application.conversation.dto;
 
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 
 /** 会话DTO，用于API响应 */
 public class SessionDTO {
@@ -11,9 +11,9 @@ public class SessionDTO {
     /** 会话描述 */
     private String description;
     /** 创建时间 */
-    private LocalDateTime createdAt;
+    private OffsetDateTime createdAt;
     /** 更新时间 */
-    private LocalDateTime updatedAt;
+    private OffsetDateTime updatedAt;
     /** 是否归档 */
     private boolean isArchived;
     /** 代理ID */
@@ -27,7 +27,7 @@ public class SessionDTO {
     }
 
     /** 全参构造函数 */
-    public SessionDTO(String id, String title, String description, LocalDateTime createdAt, LocalDateTime updatedAt,
+    public SessionDTO(String id, String title, String description, OffsetDateTime createdAt, OffsetDateTime updatedAt,
             boolean isArchived, String agentVersionId) {
         this.id = id;
         this.title = title;
@@ -63,19 +63,19 @@ public class SessionDTO {
         this.description = description;
     }
 
-    public LocalDateTime getCreatedAt() {
+    public OffsetDateTime getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(LocalDateTime createdAt) {
+    public void setCreatedAt(OffsetDateTime createdAt) {
         this.createdAt = createdAt;
     }
 
-    public LocalDateTime getUpdatedAt() {
+    public OffsetDateTime getUpdatedAt() {
         return updatedAt;
     }
 
-    public void setUpdatedAt(LocalDateTime updatedAt) {
+    public void setUpdatedAt(OffsetDateTime updatedAt) {
         this.updatedAt = updatedAt;
     }
 

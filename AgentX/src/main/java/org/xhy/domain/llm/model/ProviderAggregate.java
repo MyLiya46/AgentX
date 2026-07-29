@@ -3,7 +3,7 @@ package org.xhy.domain.llm.model;
 import org.xhy.domain.llm.model.config.ProviderConfig;
 import org.xhy.infrastructure.llm.protocol.enums.ProviderProtocol;
 
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -97,15 +97,15 @@ public class ProviderAggregate {
         entity.setStatus(status);
     }
 
-    public LocalDateTime getCreatedAt() {
+    public OffsetDateTime getCreatedAt() {
         return entity.getCreatedAt();
     }
 
-    public LocalDateTime getUpdatedAt() {
+    public OffsetDateTime getUpdatedAt() {
         return entity.getUpdatedAt();
     }
 
-    public LocalDateTime getDeletedAt() {
+    public OffsetDateTime getDeletedAt() {
         return entity.getDeletedAt();
     }
 

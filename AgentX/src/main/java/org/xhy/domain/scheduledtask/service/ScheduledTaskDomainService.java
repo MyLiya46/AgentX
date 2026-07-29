@@ -7,7 +7,7 @@ import org.xhy.domain.scheduledtask.model.ScheduledTaskEntity;
 import org.xhy.domain.scheduledtask.repository.ScheduledTaskRepository;
 import org.xhy.infrastructure.exception.BusinessException;
 
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.util.List;
 
 /** 定时任务领域服务 处理定时任务相关的业务逻辑 */
@@ -118,7 +118,7 @@ public class ScheduledTaskDomainService {
     /** 记录任务执行时间
      * @param taskId 任务ID
      * @param executeTime 执行时间 */
-    public void recordExecution(String taskId, LocalDateTime executeTime) {
+    public void recordExecution(String taskId, OffsetDateTime executeTime) {
         ScheduledTaskEntity scheduledTaskEntity = new ScheduledTaskEntity();
         scheduledTaskEntity.setNextExecuteTime(executeTime);
         scheduledTaskEntity.setId(taskId);

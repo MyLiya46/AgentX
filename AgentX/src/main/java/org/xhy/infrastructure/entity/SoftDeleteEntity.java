@@ -3,7 +3,7 @@ package org.xhy.infrastructure.entity;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableLogic;
 
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 
 /** 支持逻辑删除的实体基类（继承自 BaseEntity，增加 deletedAt 逻辑删除字段）
  *
@@ -15,13 +15,13 @@ public class SoftDeleteEntity extends BaseEntity {
     /** 逻辑删除时间（null=未删除，非null=已删除） */
     @TableLogic(value = "null", delval = "now()")
     @TableField("deleted_at")
-    protected LocalDateTime deletedAt;
+    protected OffsetDateTime deletedAt;
 
-    public LocalDateTime getDeletedAt() {
+    public OffsetDateTime getDeletedAt() {
         return deletedAt;
     }
 
-    public void setDeletedAt(LocalDateTime deletedAt) {
+    public void setDeletedAt(OffsetDateTime deletedAt) {
         this.deletedAt = deletedAt;
     }
 }

@@ -2,7 +2,7 @@ package org.xhy.application.account.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 
 /** 账户DTO 用户账户信息传输对象 */
 public class AccountDTO {
@@ -26,13 +26,13 @@ public class AccountDTO {
     private BigDecimal totalConsumed;
 
     /** 最后交易时间 */
-    private LocalDateTime lastTransactionAt;
+    private OffsetDateTime lastTransactionAt;
 
     /** 创建时间 */
-    private LocalDateTime createdAt;
+    private OffsetDateTime createdAt;
 
     /** 更新时间 */
-    private LocalDateTime updatedAt;
+    private OffsetDateTime updatedAt;
 
     public AccountDTO() {
     }
@@ -77,27 +77,27 @@ public class AccountDTO {
         this.totalConsumed = totalConsumed;
     }
 
-    public LocalDateTime getLastTransactionAt() {
+    public OffsetDateTime getLastTransactionAt() {
         return lastTransactionAt;
     }
 
-    public void setLastTransactionAt(LocalDateTime lastTransactionAt) {
+    public void setLastTransactionAt(OffsetDateTime lastTransactionAt) {
         this.lastTransactionAt = lastTransactionAt;
     }
 
-    public LocalDateTime getCreatedAt() {
+    public OffsetDateTime getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(LocalDateTime createdAt) {
+    public void setCreatedAt(OffsetDateTime createdAt) {
         this.createdAt = createdAt;
     }
 
-    public LocalDateTime getUpdatedAt() {
+    public OffsetDateTime getUpdatedAt() {
         return updatedAt;
     }
 
-    public void setUpdatedAt(LocalDateTime updatedAt) {
+    public void setUpdatedAt(OffsetDateTime updatedAt) {
         this.updatedAt = updatedAt;
     }
 

@@ -6,7 +6,7 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import java.io.Serial;
 import java.io.Serializable;
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.util.List;
 import org.xhy.infrastructure.converter.ListStringConverter;
 import org.xhy.infrastructure.entity.SoftDeleteEntity;
@@ -69,10 +69,10 @@ public class RagVersionEntity extends SoftDeleteEntity implements Serializable {
     private String rejectReason;
 
     /** 审核时间 */
-    private LocalDateTime reviewTime;
+    private OffsetDateTime reviewTime;
 
     /** 发布时间 */
-    private LocalDateTime publishedAt;
+    private OffsetDateTime publishedAt;
 
     public String getId() {
         return id;
@@ -194,19 +194,19 @@ public class RagVersionEntity extends SoftDeleteEntity implements Serializable {
         this.rejectReason = rejectReason;
     }
 
-    public LocalDateTime getReviewTime() {
+    public OffsetDateTime getReviewTime() {
         return reviewTime;
     }
 
-    public void setReviewTime(LocalDateTime reviewTime) {
+    public void setReviewTime(OffsetDateTime reviewTime) {
         this.reviewTime = reviewTime;
     }
 
-    public LocalDateTime getPublishedAt() {
+    public OffsetDateTime getPublishedAt() {
         return publishedAt;
     }
 
-    public void setPublishedAt(LocalDateTime publishedAt) {
+    public void setPublishedAt(OffsetDateTime publishedAt) {
         this.publishedAt = publishedAt;
     }
 }

@@ -9,6 +9,8 @@ import org.xhy.domain.scheduledtask.model.DelayedTaskItem;
 import org.xhy.domain.scheduledtask.model.ScheduledTaskEntity;
 
 import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
+import java.time.ZoneId;
 import java.util.concurrent.DelayQueue;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -172,11 +174,11 @@ public class DelayedTaskQueueManager {
         try {
             // 重新加载任务状态（executeTask可能已更新数据库）
             if (task.isActive() && task.getNextExecuteTime() != null) {
-                LocalDateTime nextTime = task.getNextExecuteTime();
+                OffsetDateTime nextTime = task.getNextExecuteTime();
 
                 // 只有未来的时间才需要调度
-                if (nextTime.isAfter(LocalDateTime.now())) {
-                    DelayedTaskItem newItem = new DelayedTaskItem(task, nextTime);
+                if (nextTime.isAfter(OffsetDateTime.now(ZoneId.of("Asia/Shanghai")))) {
+                    DelayedTaskItem newItem = new DelayedTaskItem(task, nextTime.toLocalDateTime());
                     delayQueue.offer(newItem);
                     logger.info("任务已重新调度: taskId={}, nextTime={}", task.getId(), nextTime);
                 }

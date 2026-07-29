@@ -1,7 +1,7 @@
 package org.xhy.application.order.dto;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.util.Map;
 
 /** 订单DTO */
@@ -41,16 +41,16 @@ public class OrderDTO {
     private String statusName;
 
     /** 订单过期时间 */
-    private LocalDateTime expiredAt;
+    private OffsetDateTime expiredAt;
 
     /** 支付完成时间 */
-    private LocalDateTime paidAt;
+    private OffsetDateTime paidAt;
 
     /** 取消时间 */
-    private LocalDateTime cancelledAt;
+    private OffsetDateTime cancelledAt;
 
     /** 退款时间 */
-    private LocalDateTime refundedAt;
+    private OffsetDateTime refundedAt;
 
     /** 退款金额 */
     private BigDecimal refundAmount;
@@ -74,10 +74,10 @@ public class OrderDTO {
     private Map<String, Object> metadata;
 
     /** 创建时间 */
-    private LocalDateTime createdAt;
+    private OffsetDateTime createdAt;
 
     /** 更新时间 */
-    private LocalDateTime updatedAt;
+    private OffsetDateTime updatedAt;
 
     public OrderDTO() {
     }
@@ -162,35 +162,35 @@ public class OrderDTO {
         this.statusName = statusName;
     }
 
-    public LocalDateTime getExpiredAt() {
+    public OffsetDateTime getExpiredAt() {
         return expiredAt;
     }
 
-    public void setExpiredAt(LocalDateTime expiredAt) {
+    public void setExpiredAt(OffsetDateTime expiredAt) {
         this.expiredAt = expiredAt;
     }
 
-    public LocalDateTime getPaidAt() {
+    public OffsetDateTime getPaidAt() {
         return paidAt;
     }
 
-    public void setPaidAt(LocalDateTime paidAt) {
+    public void setPaidAt(OffsetDateTime paidAt) {
         this.paidAt = paidAt;
     }
 
-    public LocalDateTime getCancelledAt() {
+    public OffsetDateTime getCancelledAt() {
         return cancelledAt;
     }
 
-    public void setCancelledAt(LocalDateTime cancelledAt) {
+    public void setCancelledAt(OffsetDateTime cancelledAt) {
         this.cancelledAt = cancelledAt;
     }
 
-    public LocalDateTime getRefundedAt() {
+    public OffsetDateTime getRefundedAt() {
         return refundedAt;
     }
 
-    public void setRefundedAt(LocalDateTime refundedAt) {
+    public void setRefundedAt(OffsetDateTime refundedAt) {
         this.refundedAt = refundedAt;
     }
 
@@ -210,19 +210,19 @@ public class OrderDTO {
         this.metadata = metadata;
     }
 
-    public LocalDateTime getCreatedAt() {
+    public OffsetDateTime getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(LocalDateTime createdAt) {
+    public void setCreatedAt(OffsetDateTime createdAt) {
         this.createdAt = createdAt;
     }
 
-    public LocalDateTime getUpdatedAt() {
+    public OffsetDateTime getUpdatedAt() {
         return updatedAt;
     }
 
-    public void setUpdatedAt(LocalDateTime updatedAt) {
+    public void setUpdatedAt(OffsetDateTime updatedAt) {
         this.updatedAt = updatedAt;
     }
 

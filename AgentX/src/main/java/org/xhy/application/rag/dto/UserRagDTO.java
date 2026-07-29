@@ -1,6 +1,6 @@
 package org.xhy.application.rag.dto;
 
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import org.xhy.domain.rag.constant.InstallType;
 
 /** 用户安装的RAG DTO
@@ -31,13 +31,13 @@ public class UserRagDTO {
     private String version;
 
     /** 安装时间 */
-    private LocalDateTime installedAt;
+    private OffsetDateTime installedAt;
 
     /** 创建时间 */
-    private LocalDateTime createdAt;
+    private OffsetDateTime createdAt;
 
     /** 更新时间 */
-    private LocalDateTime updatedAt;
+    private OffsetDateTime updatedAt;
 
     /** 原始RAG ID */
     private String originalRagId;
@@ -113,27 +113,27 @@ public class UserRagDTO {
         this.version = version;
     }
 
-    public LocalDateTime getInstalledAt() {
+    public OffsetDateTime getInstalledAt() {
         return installedAt;
     }
 
-    public void setInstalledAt(LocalDateTime installedAt) {
+    public void setInstalledAt(OffsetDateTime installedAt) {
         this.installedAt = installedAt;
     }
 
-    public LocalDateTime getCreatedAt() {
+    public OffsetDateTime getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(LocalDateTime createdAt) {
+    public void setCreatedAt(OffsetDateTime createdAt) {
         this.createdAt = createdAt;
     }
 
-    public LocalDateTime getUpdatedAt() {
+    public OffsetDateTime getUpdatedAt() {
         return updatedAt;
     }
 
-    public void setUpdatedAt(LocalDateTime updatedAt) {
+    public void setUpdatedAt(OffsetDateTime updatedAt) {
         this.updatedAt = updatedAt;
     }
 

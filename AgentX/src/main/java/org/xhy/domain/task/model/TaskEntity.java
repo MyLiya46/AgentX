@@ -5,7 +5,8 @@ import org.xhy.domain.task.constant.TaskStatus;
 import org.xhy.infrastructure.converter.ScheduledTaskStatusConverter;
 import org.xhy.infrastructure.entity.SoftDeleteEntity;
 
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
+import java.time.ZoneId;
 
 /** 任务实体类 */
 @TableName("agent_tasks")
@@ -44,11 +45,11 @@ public class TaskEntity extends SoftDeleteEntity {
 
     /** 开始时间 */
     @TableField("start_time")
-    private LocalDateTime startTime;
+    private OffsetDateTime startTime;
 
     /** 结束时间 */
     @TableField("end_time")
-    private LocalDateTime endTime;
+    private OffsetDateTime endTime;
 
     /** 任务结果 */
     @TableField("task_result")
@@ -64,9 +65,9 @@ public class TaskEntity extends SoftDeleteEntity {
     public void updateStatus(TaskStatus status) {
         this.status = status;
         if (status == TaskStatus.IN_PROGRESS && this.startTime == null) {
-            this.startTime = LocalDateTime.now();
+            this.startTime = OffsetDateTime.now(ZoneId.of("Asia/Shanghai"));
         } else if ((status == TaskStatus.COMPLETED || status == TaskStatus.FAILED) && this.endTime == null) {
-            this.endTime = LocalDateTime.now();
+            this.endTime = OffsetDateTime.now(ZoneId.of("Asia/Shanghai"));
         }
 
         if (status == TaskStatus.COMPLETED) {
@@ -153,19 +154,19 @@ public class TaskEntity extends SoftDeleteEntity {
         this.progress = progress;
     }
 
-    public LocalDateTime getStartTime() {
+    public OffsetDateTime getStartTime() {
         return startTime;
     }
 
-    public void setStartTime(LocalDateTime startTime) {
+    public void setStartTime(OffsetDateTime startTime) {
         this.startTime = startTime;
     }
 
-    public LocalDateTime getEndTime() {
+    public OffsetDateTime getEndTime() {
         return endTime;
     }
 
-    public void setEndTime(LocalDateTime endTime) {
+    public void setEndTime(OffsetDateTime endTime) {
         this.endTime = endTime;
     }
     /** 获取任务结果

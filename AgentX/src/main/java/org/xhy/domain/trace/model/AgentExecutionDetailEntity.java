@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.annotation.*;
 import org.xhy.infrastructure.entity.SoftDeleteEntity;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 
 /** Agent执行链路详细记录实体 记录Agent执行过程中每个步骤的详细信息 */
 @TableName("agent_execution_details")
@@ -111,7 +111,7 @@ public class AgentExecutionDetailEntity extends SoftDeleteEntity {
 
     /** 创建用户消息步骤（带时间戳） */
     public static AgentExecutionDetailEntity createUserMessageStep(String sessionId, Integer sequenceNo,
-            String userMessage, String messageType, LocalDateTime eventTime) {
+            String userMessage, String messageType, OffsetDateTime eventTime) {
         AgentExecutionDetailEntity entity = new AgentExecutionDetailEntity();
         entity.setSessionId(sessionId);
         entity.setMessageContent(userMessage);
@@ -133,7 +133,7 @@ public class AgentExecutionDetailEntity extends SoftDeleteEntity {
 
     /** 创建带Token信息的用户消息步骤（带时间戳） */
     public static AgentExecutionDetailEntity createUserMessageStepWithTokens(String sessionId, Integer sequenceNo,
-            String userMessage, String messageType, Integer messageTokens, LocalDateTime eventTime) {
+            String userMessage, String messageType, Integer messageTokens, OffsetDateTime eventTime) {
         AgentExecutionDetailEntity entity = new AgentExecutionDetailEntity();
         entity.setSessionId(sessionId);
         entity.setMessageContent(userMessage);
@@ -161,7 +161,7 @@ public class AgentExecutionDetailEntity extends SoftDeleteEntity {
     /** 创建AI响应步骤（带时间戳） */
     public static AgentExecutionDetailEntity createAiResponseStep(String sessionId, Integer sequenceNo,
             String aiResponse, String modelEndpoint, String providerName, Integer messageTokens, Integer modelCallTime,
-            LocalDateTime eventTime) {
+            OffsetDateTime eventTime) {
         AgentExecutionDetailEntity entity = new AgentExecutionDetailEntity();
         entity.setSessionId(sessionId);
         entity.setMessageContent(aiResponse);
@@ -192,7 +192,7 @@ public class AgentExecutionDetailEntity extends SoftDeleteEntity {
 
     /** 创建工具调用步骤（带时间戳） */
     public static AgentExecutionDetailEntity createToolCallStep(String sessionId, Integer sequenceNo, String toolName,
-            String requestArgs, String responseData, Integer executionTime, Boolean success, LocalDateTime eventTime) {
+            String requestArgs, String responseData, Integer executionTime, Boolean success, OffsetDateTime eventTime) {
         AgentExecutionDetailEntity entity = new AgentExecutionDetailEntity();
         entity.setSessionId(sessionId);
         entity.setMessageContent("执行工具：" + toolName);
@@ -226,7 +226,7 @@ public class AgentExecutionDetailEntity extends SoftDeleteEntity {
 
     /** 创建异常消息步骤 */
     public static AgentExecutionDetailEntity createErrorMessageStep(String sessionId, String errorMessage,
-            LocalDateTime eventTime) {
+            OffsetDateTime eventTime) {
         AgentExecutionDetailEntity entity = new AgentExecutionDetailEntity();
         entity.setSessionId(sessionId);
         entity.setMessageContent(errorMessage != null ? errorMessage : "未知错误");

@@ -1,6 +1,6 @@
 package org.xhy.application.task.dto;
 
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 
 /** 任务数据传输对象 */
 public class TaskDTO {
@@ -29,16 +29,16 @@ public class TaskDTO {
     private Integer progress;
 
     /** 开始时间 */
-    private LocalDateTime startTime;
+    private OffsetDateTime startTime;
 
     /** 结束时间 */
-    private LocalDateTime endTime;
+    private OffsetDateTime endTime;
 
     /** 创建时间 */
-    private LocalDateTime createdAt;
+    private OffsetDateTime createdAt;
 
     /** 更新时间 */
-    private LocalDateTime updatedAt;
+    private OffsetDateTime updatedAt;
 
     public TaskDTO() {
     }
@@ -109,35 +109,35 @@ public class TaskDTO {
         this.progress = progress;
     }
 
-    public LocalDateTime getStartTime() {
+    public OffsetDateTime getStartTime() {
         return startTime;
     }
 
-    public void setStartTime(LocalDateTime startTime) {
+    public void setStartTime(OffsetDateTime startTime) {
         this.startTime = startTime;
     }
 
-    public LocalDateTime getEndTime() {
+    public OffsetDateTime getEndTime() {
         return endTime;
     }
 
-    public void setEndTime(LocalDateTime endTime) {
+    public void setEndTime(OffsetDateTime endTime) {
         this.endTime = endTime;
     }
 
-    public LocalDateTime getCreatedAt() {
+    public OffsetDateTime getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(LocalDateTime createdAt) {
+    public void setCreatedAt(OffsetDateTime createdAt) {
         this.createdAt = createdAt;
     }
 
-    public LocalDateTime getUpdatedAt() {
+    public OffsetDateTime getUpdatedAt() {
         return updatedAt;
     }
 
-    public void setUpdatedAt(LocalDateTime updatedAt) {
+    public void setUpdatedAt(OffsetDateTime updatedAt) {
         this.updatedAt = updatedAt;
     }
 }

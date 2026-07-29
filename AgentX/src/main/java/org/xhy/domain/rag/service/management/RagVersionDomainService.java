@@ -27,7 +27,8 @@ import org.xhy.domain.rag.repository.RagVersionRepository;
 import org.xhy.domain.rag.service.RagQaDatasetDomainService;
 import org.xhy.infrastructure.exception.BusinessException;
 
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
+import java.time.ZoneId;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -205,10 +206,10 @@ public class RagVersionDomainService {
         RagVersionEntity update = new RagVersionEntity();
         update.setId(versionId);
         update.setPublishStatus(status.getCode());
-        update.setReviewTime(LocalDateTime.now());
+        update.setReviewTime(OffsetDateTime.now(ZoneId.of("Asia/Shanghai")));
 
         if (status == RagPublishStatus.PUBLISHED) {
-            update.setPublishedAt(LocalDateTime.now());
+            update.setPublishedAt(OffsetDateTime.now(ZoneId.of("Asia/Shanghai")));
         } else if (status == RagPublishStatus.REJECTED) {
             update.setRejectReason(rejectReason);
         }
@@ -277,8 +278,8 @@ public class RagVersionDomainService {
 
         // 3. 按发布时间倒序排列
         latestList.sort((a, b) -> {
-            LocalDateTime timeA = a.getPublishedAt() != null ? a.getPublishedAt() : a.getCreatedAt();
-            LocalDateTime timeB = b.getPublishedAt() != null ? b.getPublishedAt() : b.getCreatedAt();
+            OffsetDateTime timeA = a.getPublishedAt() != null ? a.getPublishedAt() : a.getCreatedAt();
+            OffsetDateTime timeB = b.getPublishedAt() != null ? b.getPublishedAt() : b.getCreatedAt();
             return timeB.compareTo(timeA);
         });
 

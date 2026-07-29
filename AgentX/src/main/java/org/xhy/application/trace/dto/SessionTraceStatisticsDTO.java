@@ -1,7 +1,7 @@
 package org.xhy.application.trace.dto;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 
 /** 会话执行链路统计信息DTO */
 public class SessionTraceStatisticsDTO {
@@ -46,10 +46,10 @@ public class SessionTraceStatisticsDTO {
     private Integer totalExecutionTime;
 
     /** 会话创建时间 */
-    private LocalDateTime sessionCreatedTime;
+    private OffsetDateTime sessionCreatedTime;
 
     /** 最后执行时间 */
-    private LocalDateTime lastExecutionTime;
+    private OffsetDateTime lastExecutionTime;
 
     /** 最后执行状态 */
     private Boolean lastExecutionSuccess;
@@ -165,19 +165,19 @@ public class SessionTraceStatisticsDTO {
         this.totalExecutionTime = totalExecutionTime;
     }
 
-    public LocalDateTime getSessionCreatedTime() {
+    public OffsetDateTime getSessionCreatedTime() {
         return sessionCreatedTime;
     }
 
-    public void setSessionCreatedTime(LocalDateTime sessionCreatedTime) {
+    public void setSessionCreatedTime(OffsetDateTime sessionCreatedTime) {
         this.sessionCreatedTime = sessionCreatedTime;
     }
 
-    public LocalDateTime getLastExecutionTime() {
+    public OffsetDateTime getLastExecutionTime() {
         return lastExecutionTime;
     }
 
-    public void setLastExecutionTime(LocalDateTime lastExecutionTime) {
+    public void setLastExecutionTime(OffsetDateTime lastExecutionTime) {
         this.lastExecutionTime = lastExecutionTime;
     }
 

@@ -10,7 +10,8 @@ import org.xhy.infrastructure.converter.WidgetTypeConverter;
 import org.xhy.infrastructure.entity.SoftDeleteEntity;
 import org.xhy.infrastructure.exception.BusinessException;
 
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
+import java.time.ZoneId;
 import java.util.List;
 import java.util.UUID;
 
@@ -100,8 +101,8 @@ public class AgentWidgetEntity extends SoftDeleteEntity {
         widget.setWidgetType(widgetType != null ? widgetType : WidgetType.AGENT);
         widget.setKnowledgeBaseIds(knowledgeBaseIds);
         widget.setEnabled(true);
-        widget.setCreatedAt(LocalDateTime.now());
-        widget.setUpdatedAt(LocalDateTime.now());
+        widget.setCreatedAt(OffsetDateTime.now(ZoneId.of("Asia/Shanghai")));
+        widget.setUpdatedAt(OffsetDateTime.now(ZoneId.of("Asia/Shanghai")));
         return widget;
     }
 
@@ -146,13 +147,13 @@ public class AgentWidgetEntity extends SoftDeleteEntity {
     /** 启用小组件配置 */
     public void enable() {
         this.enabled = true;
-        this.updatedAt = LocalDateTime.now();
+        this.updatedAt = OffsetDateTime.now(ZoneId.of("Asia/Shanghai"));
     }
 
     /** 禁用小组件配置 */
     public void disable() {
         this.enabled = false;
-        this.updatedAt = LocalDateTime.now();
+        this.updatedAt = OffsetDateTime.now(ZoneId.of("Asia/Shanghai"));
     }
 
     /** 更新小组件配置 */
@@ -173,13 +174,13 @@ public class AgentWidgetEntity extends SoftDeleteEntity {
         this.dailyLimit = dailyLimit != null ? dailyLimit : -1;
         this.widgetType = widgetType != null ? widgetType : WidgetType.AGENT;
         this.knowledgeBaseIds = knowledgeBaseIds;
-        this.updatedAt = LocalDateTime.now();
+        this.updatedAt = OffsetDateTime.now(ZoneId.of("Asia/Shanghai"));
     }
 
     /** 软删除 */
     public void delete() {
-        this.deletedAt = LocalDateTime.now();
-        this.updatedAt = LocalDateTime.now();
+        this.deletedAt = OffsetDateTime.now(ZoneId.of("Asia/Shanghai"));
+        this.updatedAt = OffsetDateTime.now(ZoneId.of("Asia/Shanghai"));
     }
 
     // Getter和Setter方法

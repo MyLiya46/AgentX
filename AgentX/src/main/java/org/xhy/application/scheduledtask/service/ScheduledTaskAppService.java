@@ -12,6 +12,7 @@ import org.xhy.interfaces.dto.scheduledtask.request.CreateScheduledTaskRequest;
 import org.xhy.interfaces.dto.scheduledtask.request.UpdateScheduledTaskRequest;
 
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.List;
 
 /** 定时任务应用服务 职责： 1. 接收和验证来自接口层的请求 2. 将请求转换为领域对象或参数 3. 调用领域服务执行业务逻辑 4. 转换和返回结果给接口层 */
@@ -40,7 +41,7 @@ public class ScheduledTaskAppService {
 
         // 计算下次执行时间
         LocalDateTime nextExecuteTime = taskScheduleService.calculateNextExecuteTime(entity, LocalDateTime.now());
-        entity.setNextExecuteTime(nextExecuteTime);
+        entity.setNextExecuteTime(nextExecuteTime != null ? nextExecuteTime.atZone(ZoneId.of("Asia/Shanghai")).toOffsetDateTime() : null);
 
         // 调用领域服务创建任务
         ScheduledTaskEntity savedEntity = scheduledTaskDomainService.createTask(entity);
@@ -70,7 +71,7 @@ public class ScheduledTaskAppService {
         if (updateEntity.getRepeatConfig() != null) {
             LocalDateTime nextExecuteTime = taskScheduleService.calculateNextExecuteTime(updateEntity,
                     LocalDateTime.now());
-            updateEntity.setNextExecuteTime(nextExecuteTime);
+            updateEntity.setNextExecuteTime(nextExecuteTime != null ? nextExecuteTime.atZone(ZoneId.of("Asia/Shanghai")).toOffsetDateTime() : null);
         }
 
         // 调用领域服务更新任务

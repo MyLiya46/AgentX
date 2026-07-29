@@ -1,7 +1,7 @@
 package org.xhy.application.trace.dto;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 
 /** Agent执行链路汇总DTO */
 public class AgentExecutionSummaryDTO {
@@ -22,10 +22,10 @@ public class AgentExecutionSummaryDTO {
     private String agentName;
 
     /** 执行开始时间 */
-    private LocalDateTime executionStartTime;
+    private OffsetDateTime executionStartTime;
 
     /** 执行结束时间 */
-    private LocalDateTime executionEndTime;
+    private OffsetDateTime executionEndTime;
 
     /** 总执行时间(毫秒) */
     private Integer totalExecutionTime;
@@ -55,7 +55,7 @@ public class AgentExecutionSummaryDTO {
     private String errorMessage;
 
     /** 创建时间 */
-    private LocalDateTime createdTime;
+    private OffsetDateTime createdTime;
 
     public AgentExecutionSummaryDTO() {
     }
@@ -101,19 +101,19 @@ public class AgentExecutionSummaryDTO {
         this.agentName = agentName;
     }
 
-    public LocalDateTime getExecutionStartTime() {
+    public OffsetDateTime getExecutionStartTime() {
         return executionStartTime;
     }
 
-    public void setExecutionStartTime(LocalDateTime executionStartTime) {
+    public void setExecutionStartTime(OffsetDateTime executionStartTime) {
         this.executionStartTime = executionStartTime;
     }
 
-    public LocalDateTime getExecutionEndTime() {
+    public OffsetDateTime getExecutionEndTime() {
         return executionEndTime;
     }
 
-    public void setExecutionEndTime(LocalDateTime executionEndTime) {
+    public void setExecutionEndTime(OffsetDateTime executionEndTime) {
         this.executionEndTime = executionEndTime;
     }
 
@@ -189,11 +189,11 @@ public class AgentExecutionSummaryDTO {
         this.errorMessage = errorMessage;
     }
 
-    public LocalDateTime getCreatedTime() {
+    public OffsetDateTime getCreatedTime() {
         return createdTime;
     }
 
-    public void setCreatedTime(LocalDateTime createdTime) {
+    public void setCreatedTime(OffsetDateTime createdTime) {
         this.createdTime = createdTime;
     }
 }

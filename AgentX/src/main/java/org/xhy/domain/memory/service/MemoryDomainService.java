@@ -96,10 +96,15 @@ public class MemoryDomainService {
                 toSave.setSourceSessionId(sessionId);
                 toSave.setDedupeHash(hash);
                 toSave.setStatus(ACTIVE);
+                log.debug("准备写入记忆条目 userId={}, type={}, text={}, importance={}, tags={}, hash={}",
+                        toSave.getUserId(), toSave.getType(), toSave.getText(),
+                        toSave.getImportance(), toSave.getTags(), toSave.getDedupeHash());
                 try {
                     memoryItemRepository.insert(toSave);
                 } catch (Exception e) {
-                    e.printStackTrace();
+                    log.error("记忆条目写入失败 userId={}, type={}, text={}, errType={}, errMsg={}",
+                            userId, type.name(), c.getText(), e.getClass().getName(), e.getMessage(), e);
+                    throw new BusinessException("记忆保存失败，请稍后重试", e);
                 }
             } else {
                 // 合并（简单策略：importance 取 max，tags 合并去重，text 以更长者为准）
@@ -127,9 +132,28 @@ public class MemoryDomainService {
                 Embedding emb = embeddingModel.embed(segment).content();
                 memoryEmbeddingStore.add(emb, segment);
             } catch (Exception e) {
-                log.error("向量入库失败 userId={}, itemId={}, err={}", userId, toSave.getId(), e.getMessage(), e);
+                log.error("向量入库失败，将回滚业务表记录 userId={}, itemId={}, err={}", userId, toSave.getId(), e.getMessage(), e);
+
+                // 补偿删除：向量写入失败时，删除已写入的业务表记录
+                final boolean wasNew = (existed == null);
+                try {
+                    if (wasNew) {
+                        memoryItemRepository.deleteById(toSave.getId());
+                        log.info("已回滚新增的记忆记录 itemId={}", toSave.getId());
+                    } else {
+                        memoryItemRepository.updateById(existed);
+                        log.info("已恢复合并前的记忆记录 itemId={}", toSave.getId());
+                    }
+                } catch (Exception rollbackEx) {
+                    log.error("回滚业务表记录失败 itemId={}, err={}。需要人工处理！", toSave.getId(), rollbackEx.getMessage(),
+                            rollbackEx);
+                }
+
                 throw new BusinessException("记忆向量入库失败: " + e.getMessage(), e);
             }
+
+            log.info("记忆保存成功 userId={}, itemId={}, type={}, importance={}, isNew={}", userId, toSave.getId(),
+                    type.name(), toSave.getImportance(), existed == null);
         }
 
         return itemIds;
@@ -168,8 +192,8 @@ public class MemoryDomainService {
                 return Collections.emptyList();
             }
 
-            List<MemoryItemEntity> items = memoryItemRepository
-                    .selectList(Wrappers.<MemoryItemEntity>lambdaQuery().in(MemoryItemEntity::getId, itemIds));
+            List<MemoryItemEntity> items = memoryItemRepository.selectList(Wrappers.<MemoryItemEntity>lambdaQuery()
+                    .in(MemoryItemEntity::getId, itemIds).eq(MemoryItemEntity::getStatus, ACTIVE));
             Map<String, MemoryItemEntity> itemMap = items.stream()
                     .collect(Collectors.toMap(MemoryItemEntity::getId, it -> it, (a, b) -> a));
 
@@ -203,6 +227,49 @@ public class MemoryDomainService {
     }
 
     // =============== helper methods ===============
+
+    /** 检测向量库中的孤儿记录（ITEM_ID 在 memory_items 中不存在或已归档）
+     *
+     * @param userId 用户 ID
+     * @return 孤儿向量记录的 itemId 列表 */
+    public List<String> findOrphanVectors(String userId) {
+        // 获取该用户在 memory_items 中的所有 active ITEM_ID
+        List<MemoryItemEntity> activeItems = listMemories(userId, null, null);
+        Set<String> activeItemIds = activeItems.stream().map(MemoryItemEntity::getId).collect(Collectors.toSet());
+
+        // 查询向量库中 ITEM_ID 不在 activeItemIds 中的记录
+        List<String> orphanIds = memoryItemRepository.findOrphanVectorItemIds(userId, activeItemIds);
+
+        log.info("孤儿向量检测完成 userId={}, activeCount={}, orphanCount={}", userId, activeItemIds.size(), orphanIds.size());
+        return orphanIds;
+    }
+
+    /** 清理指定用户的孤儿向量记录
+     *
+     * @param userId 用户 ID
+     * @return 清理的孤儿记录数量 */
+    public int cleanOrphanVectors(String userId) {
+        List<String> orphanIds = findOrphanVectors(userId);
+        if (orphanIds.isEmpty()) {
+            log.info("未发现孤儿向量记录 userId={}", userId);
+            return 0;
+        }
+
+        int cleaned = 0;
+        for (String itemId : orphanIds) {
+            try {
+                memoryItemRepository.deleteVectorByItemId(userId, itemId);
+                cleaned++;
+            } catch (Exception e) {
+                log.error("清理孤儿向量记录失败 userId={}, itemId={}, err={}", userId, itemId, e.getMessage(), e);
+            }
+        }
+
+        log.info("清理孤儿向量记录完成 userId={}, 清理数量={}", userId, cleaned);
+        return cleaned;
+    }
+
+    // =============== private helper methods ===============
 
     /** 分页列出用户记忆（可按类型过滤，仅返回 active 记录） */
     public Page<MemoryItemEntity> pageMemories(String userId, String type, int page, int pageSize) {

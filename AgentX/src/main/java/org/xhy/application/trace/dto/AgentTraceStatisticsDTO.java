@@ -1,7 +1,7 @@
 package org.xhy.application.trace.dto;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 
 /** Agent执行链路统计信息DTO */
 public class AgentTraceStatisticsDTO {
@@ -40,7 +40,7 @@ public class AgentTraceStatisticsDTO {
     private Integer totalSessions;
 
     /** 最后执行时间 */
-    private LocalDateTime lastExecutionTime;
+    private OffsetDateTime lastExecutionTime;
 
     /** 最后执行状态 */
     private Boolean lastExecutionSuccess;
@@ -137,11 +137,11 @@ public class AgentTraceStatisticsDTO {
         this.totalSessions = totalSessions;
     }
 
-    public LocalDateTime getLastExecutionTime() {
+    public OffsetDateTime getLastExecutionTime() {
         return lastExecutionTime;
     }
 
-    public void setLastExecutionTime(LocalDateTime lastExecutionTime) {
+    public void setLastExecutionTime(OffsetDateTime lastExecutionTime) {
         this.lastExecutionTime = lastExecutionTime;
     }
 

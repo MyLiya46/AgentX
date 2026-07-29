@@ -15,7 +15,7 @@ import org.xhy.domain.trace.model.AgentExecutionDetailEntity;
 import org.xhy.domain.trace.model.AgentExecutionSummaryEntity;
 import org.xhy.domain.trace.service.AgentExecutionTraceDomainService;
 
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
@@ -91,8 +91,8 @@ public class AgentExecutionTraceAppService {
      * @param startTime 开始时间
      * @param endTime 结束时间
      * @return 执行记录列表 */
-    public List<AgentExecutionSummaryDTO> getUserExecutionsByTimeRange(String userId, LocalDateTime startTime,
-            LocalDateTime endTime) {
+    public List<AgentExecutionSummaryDTO> getUserExecutionsByTimeRange(String userId, OffsetDateTime startTime,
+            OffsetDateTime endTime) {
         List<AgentExecutionSummaryEntity> entities = traceDomainService.getUserExecutionsByTimeRange(userId, startTime,
                 endTime);
         return AgentExecutionTraceAssembler.toSummaryDTOs(entities);

@@ -1,6 +1,8 @@
 package org.xhy.application.tool.service;
 
 import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
+import java.time.ZoneId;
 import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -139,7 +141,7 @@ public class ToolAppService {
         toolVersionEntity.setPublicStatus(true);
         toolVersionEntity.setId(null);
         toolVersionEntity.setMcpServerName(toolEntity.getMcpServerName());
-        toolVersionEntity.setCreatedAt(LocalDateTime.now());
+        toolVersionEntity.setCreatedAt(OffsetDateTime.now(ZoneId.of("Asia/Shanghai")));
         toolVersionDomainService.addToolVersion(toolVersionEntity);
     }
 
