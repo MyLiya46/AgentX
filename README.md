@@ -4,17 +4,6 @@
 
 AgentX 是一个基于大模型 (LLM) 和多能力平台 (MCP) 的智能 Agent 构建平台。它致力于简化 Agent 的创建流程，让用户无需复杂的流程节点或拖拽操作，仅通过自然语言和工具集成即可打造个性化的智能 Agent。
 
-## 🔗 相关链接
-
-### 📦 子仓库
-- 🛡️ **高可用网关**: [API-Premium-Gateway](https://github.com/lucky-aeon/API-Premium-Gateway) - 模型高可用组件
-- 🌐 **MCP网关**: [mcp-gateway](https://github.com/lucky-aeon/mcp-gateway) - MCP服务统一管理
-- 🏪 **MCP社区**: [agent-mcp-community](https://github.com/lucky-aeon/agent-mcp-community) - MCP Server 开源社区
-
-### 📚 学习资源
-- 🎥 **项目教程**: [B站视频教程](https://www.bilibili.com/video/BV1qaTWzPERJ/?spm_id_from=333.1387.homepage.video_card.click)
-- 📖 **详细教学**: [敲鸭社区 - code.xhyovo.cn](https://code.xhyovo.cn/)
-- 🎯 **项目演示**: [在线PPT介绍](https://needless-comparison.surge.sh)
 
 ## 🚀 快速开始
 
@@ -273,36 +262,3 @@ STRIPE_SECRET_KEY=your_stripe_secret_key
 | [开发部署指南](deploy/README.md) | 开发者环境配置 |
 | [故障排查手册](docs/deployment/TROUBLESHOOTING.md) | 问题诊断和解决 |
 
-## 功能介绍
-
-## Contributors
-
-[![AgentX](https://contrib.rocks/image?repo=lucky-aeon/agentX)](https://contrib.rocks/image?repo=lucky-aeon/agentX)
-
-## Star History
-
-[![Star History Chart](https://api.star-history.com/svg?repos=lucky-aeon/agentX&type=Date)](https://api.star-history.com/svg?repos=lucky-aeon/agentX&type=Date)
-
-
-## 联系我们
-
-我们致力于构建一个活跃的开发者社区，欢迎各种形式的交流与合作！
-
-### 📱 私人微信
-如有技术问题或商务合作，可添加开发者微信：
-
-<img src="docs/images/wechat.jpg" alt="私人微信" width="200"/>
-
-### 👥 微信交流群
-加入我们的技术交流群，与更多开发者一起讨论：
-
-<img src="docs/images/group.jpg" alt="微信交流群" width="200"/>
-
-### 📢 微信公众号
-关注我们的公众号，获取最新技术动态和产品更新：
-
-<img src="docs/images/微信公众号.jpg" alt="微信公众号" width="200"/>
-
----
-
-**如果二维码过期或无法扫描，请通过私人微信联系我。**
