@@ -2,7 +2,6 @@ package org.xhy.domain.memory.service;
 
 import static org.xhy.domain.memory.constant.MemoryMetadataConstant.*;
 
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import dev.langchain4j.data.document.Metadata;
 import dev.langchain4j.data.embedding.Embedding;
@@ -79,9 +78,10 @@ public class MemoryDomainService {
             String normalized = normalizeText(c.getText());
             String hash = sha256(normalized);
 
-            // 查重（同用户，同hash）
-            MemoryItemEntity existed = memoryItemRepository.selectOne(Wrappers.<MemoryItemEntity>lambdaQuery()
-                    .eq(MemoryItemEntity::getUserId, userId).eq(MemoryItemEntity::getDedupeHash, hash));
+            // 查重（同用户，同hash，仅 active 记录）
+            MemoryItemEntity existed = memoryItemRepository
+                    .selectOne(Wrappers.<MemoryItemEntity>lambdaQuery().eq(MemoryItemEntity::getUserId, userId)
+                            .eq(MemoryItemEntity::getDedupeHash, hash).eq(MemoryItemEntity::getStatus, ACTIVE));
 
             MemoryItemEntity toSave;
             if (existed == null) {
@@ -204,10 +204,11 @@ public class MemoryDomainService {
 
     // =============== helper methods ===============
 
-    /** 分页列出用户记忆（可按类型过滤） */
+    /** 分页列出用户记忆（可按类型过滤，仅返回 active 记录） */
     public Page<MemoryItemEntity> pageMemories(String userId, String type, int page, int pageSize) {
         Page<MemoryItemEntity> mpPage = new Page<>(Math.max(1, page), Math.max(1, pageSize));
-        var qw = Wrappers.<MemoryItemEntity>lambdaQuery().eq(MemoryItemEntity::getUserId, userId);
+        var qw = Wrappers.<MemoryItemEntity>lambdaQuery().eq(MemoryItemEntity::getUserId, userId)
+                .eq(MemoryItemEntity::getStatus, ACTIVE);
         if (type != null && !type.isBlank()) {
             qw.eq(MemoryItemEntity::getType, type.trim().toUpperCase());
         }
@@ -216,9 +217,10 @@ public class MemoryDomainService {
         return mpPage;
     }
 
-    /** 列出用户的记忆（可按类型过滤，带上限） */
+    /** 列出用户的记忆（可按类型过滤，带上限，仅返回 active 记录） */
     public List<MemoryItemEntity> listMemories(String userId, String type, Integer limit) {
-        var qw = Wrappers.<MemoryItemEntity>lambdaQuery().eq(MemoryItemEntity::getUserId, userId);
+        var qw = Wrappers.<MemoryItemEntity>lambdaQuery().eq(MemoryItemEntity::getUserId, userId)
+                .eq(MemoryItemEntity::getStatus, ACTIVE);
         if (type != null && !type.isBlank()) {
             qw.eq(MemoryItemEntity::getType, type.trim().toUpperCase());
         }
@@ -230,11 +232,21 @@ public class MemoryDomainService {
         return list;
     }
 
-    /** 归档（软删除）记忆条目 */
+    /** 归档（软删除）记忆条目 — 将 status 设为 0（archived）
+     *
+     * @return true 表示归档成功，false 表示记录不存在或已归档 */
     public boolean delete(String userId, String itemId) {
-        LambdaQueryWrapper<MemoryItemEntity> qw = Wrappers.<MemoryItemEntity>lambdaQuery()
-                .eq(MemoryItemEntity::getUserId, userId).eq(MemoryItemEntity::getId, itemId);
-        memoryItemRepository.delete(qw);
+        // 先查确认记录存在且属于当前用户（仅操作 active 记录，防止重复归档）
+        MemoryItemEntity entity = memoryItemRepository
+                .selectOne(Wrappers.<MemoryItemEntity>lambdaQuery().eq(MemoryItemEntity::getUserId, userId)
+                        .eq(MemoryItemEntity::getId, itemId).eq(MemoryItemEntity::getStatus, ACTIVE));
+
+        if (entity == null) {
+            return false;
+        }
+
+        entity.setStatus(0);
+        memoryItemRepository.updateById(entity);
         return true;
     }
 
