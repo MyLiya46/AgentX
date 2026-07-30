@@ -200,3 +200,10 @@ agentx:
 mcp:
   gateway:
     connect-timeout: ${MCP_GATEWAY_CONNECT_TIMEOUT:60000}
+
+# GitHub SSO OAuth 配置（启动时自动注入数据库，数据库配置优先）
+sso:
+  github:
+    client-id: ${GITHUB_CLIENT_ID:}
+    client-secret: ${GITHUB_CLIENT_SECRET:}
+    redirect-uri: ${GITHUB_REDIRECT_URI:}

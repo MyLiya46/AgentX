@@ -1,6 +1,39 @@
 # Agent项目开发计划 - Todo List
 
+## 已完成
+
+- [x] **GitHub SSO 配置不完整导致 400 错误** ✅ (2026-07-30)
+  - 详见 Spec: [github-sso-env-config-seeding-2026-07-30](docs/specs/github-sso-env-config-seeding-2026-07-30.md) | Plan: [github-sso-env-config-seeding-2026-07-30](docs/plans/github-sso-env-config-seeding-2026-07-30.md)
+  - ① `auth_settings` 表 `GITHUB_LOGIN` 记录缺少 `config_data`（OAuth 密钥），导致 `GET /api/sso/github/login` 返回 400
+    - 修复：新增 `SsoConfigInitializer`，启动时从 `.env` 自动注入 OAuth 配置到数据库
+  - ② 前端 `login/page.tsx` 未传 `redirectUrl`，GitHub 回调到后端 API 返回 JSON 而非重定向到前端完成登录
+    - 修复：`handleGitHubLogin()` / `handleQiaoyaLogin()` 传入 `window.location.origin/sso/{provider}/callback`
+
 ## 已知 Bug
+
+- [ ] **邮件验证码发送失败：发件人邮箱未配置（Illegal address）** 🔴
+  - 位置: `EmailService.sendVerificationCode()` → `new InternetAddress(username)`
+  - 现象: 调用 `/api/send-email-code` 接口返回 `400 "发送邮件失败: Illegal address"`
+  - 根因: `application.yml` 中 `mail.smtp.username` 默认值为空字符串（`${MAIL_SMTP_USERNAME:}`），未配置环境变量时 `new InternetAddress("")` 抛出 `AddressException`
+  - 影响: 用户注册、重置密码等所有邮件验证码相关功能完全不可用
+  - 解决方案 — 配置专用发件邮箱:
+    1. **获取邮箱 SMTP 信息**（以 QQ 邮箱为例）：
+       - 登录 QQ 邮箱 → 设置 → 账户 → 开启 `POP3/SMTP服务`
+       - 获取 **SMTP 授权码**（不是 QQ 密码，是 16 位授权码字符串）
+       - 记录 SMTP 服务器地址: `smtp.qq.com`，端口: `587`（STARTTLS）或 `465`（SSL）
+    2. **配置环境变量**（开发环境在 IDEA 启动配置或 `.env` 文件中设置）：
+       ```
+       MAIL_SMTP_HOST=smtp.qq.com
+       MAIL_SMTP_PORT=587
+       MAIL_SMTP_USERNAME=你的QQ邮箱@qq.com     # 必须是完整邮箱地址，不能只填QQ号
+       MAIL_SMTP_PASSWORD=你的16位SMTP授权码     # 不是QQ密码，是授权码
+       ```
+    3. **生产环境**：在 Docker Compose 或 K8s ConfigMap/Secret 中配置上述环境变量
+    4. **后续优化建议**：
+       - 将 `mail.smtp.username` 默认值从空字符串改为必填校验（启动时检查，未配置直接报错，而非等到运行时才暴露）
+       - 支持多邮件服务商（163、Gmail、企业微信等），在管理后台或配置文件中提供切换选项
+       - 考虑引入第三方邮件发送服务（如 SendGrid、Resend、阿里云邮件推送），降低自建 SMTP 的维护成本和进垃圾箱风险
+       - 邮件模板可配置化（当前 `mail.verification.template` 仅支持纯文本，未来可扩展为 HTML 模板）
 
 - [ ] **Agent聊天框上传文件后前端显示文件名被重命名，非用户原始文件名**
   - 位置: 前端文件上传组件 → 消息展示组件

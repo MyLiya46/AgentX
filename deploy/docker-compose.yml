@@ -159,6 +159,11 @@ services:
       GITHUB_USERNAME: ${GITHUB_USERNAME:-lucky-aeon}
       GITHUB_TOKEN: ${GITHUB_TOKEN:-your_github_token}
 
+      # GitHub SSO OAuth 配置
+      GITHUB_CLIENT_ID: ${GITHUB_CLIENT_ID:-}
+      GITHUB_CLIENT_SECRET: ${GITHUB_CLIENT_SECRET:-}
+      GITHUB_REDIRECT_URI: ${GITHUB_REDIRECT_URI:-}
+
       # 阿里云OSS对象存储配置
       OSS_ENDPOINT: ${OSS_ENDPOINT:-oss-cn-guangzhou.aliyuncs.com}
       OSS_ACCESS_KEY: ${OSS_ACCESS_KEY}

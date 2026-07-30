@@ -32,17 +32,17 @@ AgentX is an intelligent agent platform built with Domain-Driven Design (DDD) ar
 # Navigate to backend directory
 cd AgentX
 
-# 使用 mvn的方式运行 maven 命令
-./mvn spring-boot:run
+# 使用 mvnw的方式运行 maven 命令
+./mvnw spring-boot:run
 
 # Build backend
-./mvn clean compile
+./mvnw clean compile
 
 # Run tests
-./mvn test
+./mvnw test
 
 # Code formatting (uses Spotless plugin)
-./mvn spotless:apply
+./mvnw spotless:apply
 ```
 
 ### Frontend (Next.js)
@@ -452,7 +452,7 @@ logger.error("Failed to process request", exception);
 ## Development Workflow
 
 ### Code Quality Checklist
-- [ ] Run `mvn spotless:apply` before committing Java code
+- [ ] Run `mvnw spotless:apply` before committing Java code
 - [ ] Write unit tests for new business logic
 - [ ] Update API documentation for interface changes
 - [ ] Validate database migrations work correctly
@@ -1114,7 +1114,7 @@ repository.checkedUpdate(entity, updateWrapper);
 - **Database Init**: Verify SQL scripts execute correctly
 
 ## Important Notes
-- Always run code formatting before commits (`mvn spotless:apply` for Java)
+- Always run code formatting before commits (`mvnw spotless:apply` for Java)
 - Use `--legacy-peer-deps` flag when installing npm dependencies
 - Development mode includes file watching with automatic container restarts
 - Follow REST conventions for API design

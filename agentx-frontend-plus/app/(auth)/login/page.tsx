@@ -113,7 +113,7 @@ export default function LoginPage() {
   const handleGitHubLogin = async () => {
     try {
       setGithubLoading(true)
-      const res = await getSsoLoginUrlApi('github')
+      const res = await getSsoLoginUrlApi('github', `${window.location.origin}/sso/github/callback`)
       if (res.code === 200 && res.data?.loginUrl) {
         window.location.href = res.data.loginUrl
       } else {
@@ -138,7 +138,7 @@ export default function LoginPage() {
   const handleQiaoyaLogin = async () => {
     try {
       setQiaoyaLoading(true)
-      const res = await getSsoLoginUrlApi('community')
+      const res = await getSsoLoginUrlApi('community', `${window.location.origin}/sso/community/callback`)
       if (res.code === 200 && res.data?.loginUrl) {
         window.location.href = res.data.loginUrl
       } else {
